@@ -1,0 +1,152 @@
+Script started on Tue 12 Jan 2021 10:38:13 PM EST
+]0;steinbeck_cr@cobra:~/csc310/Labs/Lab1[?1034h[steinbeck_cr@cobra Lab1]$ cat mytail.cpp 
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    int lineCount;
+    char ch;
+    int n = (-1*(atoi(argv[1]))); //negates the value and reads i the value
+    string filename = argv[2];
+
+    ifstream ReadFile (filename.c_str(), ios :: in);
+
+    //Starts the tail process at the eof
+    ReadFile.seekg(-1,ios::end);
+
+    bool first = false; //
+    //Reads through the file from bottom to top
+    while(lineCount < n)    
+    {
+        ReadFile.get(ch); //Read the character
+        if(ch == '\n' && !first)
+        {
+            ch =' '; //Sets the first character is empty
+        } //If the first character in the new line is a /n
+        first =true;
+         
+        //If the character is a newline
+        if(ch == '\n') 
+        {
+            lineCount++;
+        }
+
+        //If the line count is equal to n
+        if(lineCount == n)
+        {
+            break;
+        }
+        ReadFile.seekg(-2 ,ios::cur); //One step forward, two steps back mentality  
+        
+        if(ReadFile.tellg()==0) //If the number is Out of Bounds
+        {
+            break;
+        }
+    }
+    //Prints out the file
+    while(ReadFile.get(ch))
+    {
+        cout<<ch;
+    }    
+}]0;steinbeck_cr@cobra:~/csc310/Labs/Lab1[steinbeck_cr@cobra Lab1]$ cat mywc.cpp 
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    string filename = argv[argc-1]; //starts count with executable
+    fstream inOut (filename.c_str(), ios::in); //opened file with input+output mode
+    int count = 0; 
+    char ch;
+    int lineCount=0;
+    int wordCount=0;
+    int byteCount=0;
+
+    while(inOut.get(ch))
+    {
+        byteCount++;
+        if(ch =='\n')
+        {
+            lineCount++;
+            wordCount++;
+        }
+
+        if(ch == ' ' )
+        {
+            wordCount++;
+        }
+    }
+    cout<<lineCount<<"\t"<<wordCount<<"\t"<<byteCount<<"\n";
+}]0;steinbeck_cr@cobra:~/csc310/Labs/Lab1[steinbeck_cr@cobra Lab1]$ cat Base.cpp 
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+
+class Base
+{
+    public:
+    virtual void iam();
+};
+class BaseBoosted : public Base //Extends Base
+{
+    public:
+    void iam();
+    void iam2();
+};
+
+class BaseBoostedMax : public Base //Extends Base
+{
+    public:
+        void iam();
+        void iam2();
+};
+
+
+void Base :: iam()
+{
+    cout<<"base"<<endl;
+}
+
+void BaseBoosted :: iam()
+{
+    cout<<"BaseBoosted"<<endl;
+}
+void BaseBoostedMax :: iam()
+{
+    cout<<"BaseBoostedMax"<<endl;
+}
+
+void BaseBoosted :: iam2()
+{
+    Base :: iam();
+}
+void BaseBoostedMax :: iam2()
+{
+    Base :: iam();
+}
+
+int main(int argc, char *argv[])
+{
+    BaseBoosted One;
+    BaseBoostedMax Two;
+    One.iam();
+    Two.iam();
+    Base* Three = &One; //Pointing the values in base to 
+    Base* Four = &Two;
+    Three->iam();
+    Four->iam();
+    
+}
+]0;steinbeck_cr@cobra:~/csc310/Labs/Lab1[steinbeck_cr@cobra Lab1]$ exit
+exit
+
+Script done on Tue 12 Jan 2021 10:39:04 PM EST

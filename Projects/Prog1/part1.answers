@@ -1,0 +1,16 @@
+0000000    6f43    746c    6e6f    000a
+          C   o   l   t   o   n  \n
+0000007
+
+    ASCII | Hex
+-------------------------
+C:   67   |   43                 
+o:   111  |   6f               
+l:   111  |   6c                 
+t:   116  |   74               
+o:   111  |   6f                 
+n:   110  |   6e
+\n:   10  |   0a               
+
+
+pwd command: /home/steinbeck_cr/csc310/Projects/Prog1
