@@ -2,6 +2,9 @@
 //Part II: Processing a Master File and Building a Binary File
 #include <iostream>
 #include <cstdlib>
+#include <fstream>
+#include <iomanip>
+#include <climits>
 
 using namespace std;
 
@@ -16,7 +19,81 @@ struct BookRec
     String type;
 };
 
+
+    void PrintRecord(BookRec b)
+    {
+        cout<<setw(10)<<setfill('0')<<b.isbn
+	      <<setw(25)<<setfill(' ')<<b.name
+	      <<setw(25)<<b.author
+	      <<setw(3)<<b.onhand
+	      <<setw(6)<<b.price
+	      <<setw(10)<<b.type<<endl;
+    }
+
 int main(int argc, char* argv[])
 {
-    
+    //Creates input file argument and reads it in
+    BookRec BookInstance;
+    string filename =argv[1];
+    ifstream readInput (filename.c_str(), ios :: in | ios :: binary);
+    string delta;
+    long long tempIsbn; //
+    long savedIsbn;
+    fstream output("library.out",ios :: out | ios :: binary);
+    //Reading readInput into temp isbn
+    while(readInput>>tempIsbn)
+    {
+        bool out = true; //The output can occur and go into the file, can stop records from being printed to the binary file
+        //Ignore the first delimiter for the byte
+        readInput.ignore(1,'|');
+        if(tempIsbn < 1)
+        {
+            cerr<<"YOU MESSED UP MY BOY"<<endl;
+            getline(readInput, delta); //Moves the needle from the error to the next isbn     
+        }
+        else
+        {   
+            //
+            BookInstance.isbn = tempIsbn;
+            readInput.getline(BookInstance.name,25, '|');
+            readInput.getline(BookInstance.author,25, '|');
+            readInput>>BookInstance.onhand;
+            readInput.ignore(1,'|');
+            readInput>>BookInstance.price;
+            readInput.ignore(1,'|');
+            readInput.getline(BookInstance.type, 25, '\n');
+            
+
+            if(tempIsbn < savedIsbn)
+            {
+                cerr<<"This isbn is out of order"<<endl;
+            }
+            if(BookInstance.price < 0)
+            {
+                cerr<<"Price is invalid"<<endl; 
+                out = false; 
+            }
+            if(BookInstance.onhand <0)
+            {
+                cerr<<"There are no books in store!"<<endl;
+                out = false;
+            }
+            savedIsbn = BookInstance.isbn;
+            //Type-casting into a char * and then being written into a binary file
+            if(out)
+            {
+                output.write((char *) &BookInstance,sizeof(BookInstance));
+            }
+        }
+
+    }
+    readInput.close();
+    output.close();
+
+    ifstream output2("library.out", ios :: in | ios :: binary);
+    //Prints values to the screen
+    while(output2.read((char *) &BookInstance,sizeof(BookInstance)))
+    {
+        PrintRecord(BookInstance);
+    }
 }

@@ -64,12 +64,7 @@ int main(int argc, char* argv[])
 
 	while (in.read((char *) &buf, sizeof(BookRec) ) )
 	{
-	  cout<<setw(10)<<setfill('0')<<buf.isbn
-	      <<setw(25)<<setfill(' ')<<buf.name
-	      <<setw(25)<<buf.author
-	      <<setw(3)<<buf.onhand
-	      <<setw(6)<<buf.price
-	      <<setw(10)<<buf.type<<endl;
+
 	}
 
 	for (int i=0; i<80; i++) cout<<'^'; cout<<endl;
