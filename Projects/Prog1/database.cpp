@@ -32,5 +32,7 @@ struct TransactionRec
 
 int main(int argc, char* argv[])
 {
+    //Copies 
+    system("cp " + argv[1] + " copy.out");
     return 0;
 }
