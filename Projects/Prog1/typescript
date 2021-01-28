@@ -1,0 +1,259 @@
+Script started on Thu 28 Jan 2021 06:04:14 PM EST
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[?1034h[steinbeck_cr@cobra Prog1]$ cat update.cpp
+//Colton Steinbeck
+//Creation of the Database for Binary Books
+
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <map>
+#include <iomanip>
+#include <climits>
+
+using namespace std;
+
+//Needed emunerators and structs
+typedef char String[25];
+struct BookRec
+{
+    unsigned int isbn;
+    String name;
+    String author;
+    int onhand;
+    float price;
+    String type;
+};
+
+enum TransactionType {Add, Delete, ChangeOnHand, ChangePrice};
+struct TransactionRec
+{
+    TransactionType ToDo;
+    BookRec B;
+};
+
+void AddRec(map <long long, long> &m,  TransactionRec &T, int count, fstream &in, fstream &errors)
+{
+   BookRec r;
+   if(m.count(T.B.isbn)>0)
+   {
+       errors<<"Error in transaction number: "<<count<<". Cannot add- duplicate "<< T.B.isbn <<endl;
+   }
+   else
+   {
+       in.seekp(0,ios :: end); //Puts file to the end
+       in.write((char *) &T.B, sizeof(T.B)); //Puts the new isbn in the copy.out file
+       m[T.B.isbn] =in.tellg(); //Puts it in the map
+       cout<<"TEst"<<endl;
+   }
+}
+
+void DeleteRec(map <long long, long> &m, TransactionRec &T, int count, fstream &in, fstream &errors)
+{
+    if(m.count(T.B.isbn) == 0)
+    {
+        errors<<"Error in transaction number"<<count<<" cannot delete - no such key"<< T.B.isbn <<endl;
+    }
+    else{
+        m.erase(T.B.isbn); //Deletes the isbn from the map
+    }
+
+}
+
+void ChangeRecOnHand(map <long long, long> &m, TransactionRec &T, int count, fstream &in, fstream &errors)
+{
+    
+    int onhands =T.B.onhand;
+    //Checks if it exists
+    if(m.count(T.B.isbn) == 0)
+    {
+        errors<<"Error in transaction number"<<count<<" cannot count - no such key"<< T.B.isbn <<endl;
+    }
+    //Checking if it is a negative number
+    else
+    {
+        //Points the pointer to the start and adds it
+        BookRec r;
+        in.seekg(m[T.B.isbn]-sizeof(T.B), ios ::beg);
+        in.read((char *) &r, sizeof(T.B)); //Putting the new isbn to a generic bookrecord struct
+
+        int difference = onhands + r.onhand; 
+
+        if(difference < 0)
+        {
+            errors<<"Error in transaction number: "<<count<<"count == "<<difference<<" for key"<< T.B.isbn <<endl;
+            r.onhand = 0;
+        }
+        else{
+            //Must update the structs value
+            r.onhand= onhands;
+        }
+        in.seekg(m[T.B.isbn]-sizeof(T.B), ios ::beg);
+        in.write((char *) &r, sizeof(T.B)); //Writes the updated r value to the new map
+    }
+    
+}
+
+void ChangeRecPrice(map <long long, long> &m, TransactionRec &T, int count, fstream &in, fstream &error)
+{
+    int recPrice =T.B.price;
+    BookRec r;
+    if(m.count(T.B.isbn) == 0)
+    {
+        error<<"Error in transaction number"<<count<<" cannot change price --no such key"<< m[T.B.isbn] <<endl;
+    }
+    else{
+        //Goes to the isbn needed
+        in.seekg(m[T.B.isbn]-sizeof(T.B), ios ::beg);
+        in.read((char *) &r, sizeof(T.B)); //Putting the new isbn to a generic bookrecord struct, pointer is now at the end of the specific bookrec
+        r.price= recPrice; //Changes the price
+        in.seekg(m[T.B.isbn]-sizeof(T.B), ios ::beg); //Points back at the beginning of the file
+        in.write((char *) &r, sizeof(T.B)); //Writes new price to the file
+        
+    }
+    
+}
+
+void printMap(map <long long, long> &m)
+{
+    map<long long, long>::iterator itr; 
+    for(itr =m.begin(); itr != m.end(); ++itr)
+    {
+        cout << '\t' << itr->first << '\t' << itr->second << '\n'; 
+    }
+}
+/////////////////////////////////////////////////////////
+
+int main(int argc, char* argv[])
+{
+
+ TransactionRec T;
+   if(argc ==4)
+   {
+    string masterfile = argv[1];
+    string transactFile = argv[2];
+    string updatedMaster =argv[3];
+    system("cp library.out copy.out");
+   }
+
+    //
+    fstream in("copy.out", ios::in | ios :: out| ios::binary);
+    fstream out (argv[3], ios ::out |ios :: binary);
+    fstream errors("ERROR", ios :: out );
+    //Creates a Map to store the ISBN's and their byte offsets
+    map<long long,long > BookMap;
+
+    //While the file is being read into // 
+    while (in.read((char *) &T.B, sizeof(BookRec) ) )
+	{
+        //Mapped the key value (isbn) to the byte offset (in.tellg())
+        BookMap[T.B.isbn] =in.tellg(); //when calling it, remeber to move it back 25 to account for it    
+	}
+    in.clear();
+
+
+    //Passing in the transaction record to be read and processed
+    fstream transCheck(argv[2], ios :: in| ios :: binary);
+    int count =0;
+    while(transCheck.read((char *) &T, sizeof(TransactionRec) ))
+    {       
+            count++;
+            cout<<T.B.isbn<<endl;
+            //Conditionals for each of the Transaction Records
+            if(T.ToDo == 0)
+            {
+                cout<< "Adding ISBN"<<endl;
+                AddRec(BookMap, T, count, in, errors);
+                
+            }
+            else if(T.ToDo == 1)
+             {
+                 cout<< "Deleting ISBN"<<endl;
+                 DeleteRec(BookMap, T, count, in, errors);
+             }
+            else if(T.ToDo == 2)
+             {
+                 cout<< "Changing On Hand Amount"<<endl;
+                 ChangeRecOnHand(BookMap, T, count, in, errors);
+             }
+            else if(T.ToDo == 3)
+             {
+                 cout<<"Changing Price"<<endl;
+                 ChangeRecPrice(BookMap,T, count, in, errors);
+             }
+        
+       
+    }
+    transCheck.close(); //Closes the file 
+cout << endl <<endl;
+    //loops through the updated map to 
+    map<long long, long>::iterator itr;
+    BookRec r; //Generic BookRecord to store
+    for(itr =BookMap.begin(); itr != BookMap.end(); ++itr)
+    { 
+        
+        //Read and write byte offset into the new file
+       in.seekg(itr->second - sizeof(BookRec), ios ::beg);
+       in.read((char *) &r, sizeof(T.B)); //puts into the bookrecord object
+       out.write((char *) &r, sizeof(T.B)); //Writes outs the Book record to be red
+
+       cout << itr->first << ' ' << itr->second << ' ' << r.isbn << endl;
+    }
+
+    out.close();
+    system("rm copy.out");
+    return 0;
+}]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ c++ update.cpp
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ c++ update.cppat[C[C[C[C[C[C[C[C[C[C[Cls[K./viewLib newMas.out a.out library.out transact.out newMas.out[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[22PviewLib newMas.out [7Pc++ update.cpp./viewLib newMas.out a.out library.out transact.out newMas.out
+123766891
+Adding ISBN
+243578325
+Deleting ISBN
+259648323
+Changing On Hand Amount
+1239678325
+Adding ISBN
+TEst
+2269572525
+Adding ISBN
+TEst
+3391679915
+Adding ISBN
+TEst
+3995783225
+Adding ISBN
+TEst
+
+
+123766891 92 123766891
+239678325 184 239678325
+249638325 368 249638325
+259648323 460 259648323
+1229648991 552 1229648991
+1239678325 920 1239678325
+2119674425 644 2119674425
+2269572525 1012 2269572525
+3391679915 1104 3391679915
+3393578325 736 3393578325
+3791527325 828 3791527325
+3995783225 1196 3995783225
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ ./a.out library.out transact.out newMas.out[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cc++ update.cpp[Kat[C[C[C[C[C[C[C[C[C[C[Cls[K./viewLib newMas.out 
+[3;J[H[2J[3;J[H[2JContent of newMas.out:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+0123766891               Tom Sawyer              Twain, Mark  2  8.50   fiction
+0239678325          Leaves of Grass            Whitman, Walt  8 29.99    poetry
+0249638325             Great Gatsby     Fitzgerald, F. Scott  0  5.99   fiction
+0259648323           Scarlet Letter     Hawthorne, Nathaniel  4  4.78   fiction
+1229648991     Whisper of the River             Sams, Ferrol  4 21.95   fiction
+1239678325                Moby Dick         Melville, Herman  2 13.98   fiction
+2119674425     Last of the Mohicans   Cooper, James Fenimore  1  8.75   fiction
+2269572525                  Odyssey                    Homer  5  9.99   fiction
+3391679915        Heart of Darkness           Conrad, Joseph  0 14.45   fiction
+3393578325           Les Miserables             Hugo, Victor  2 19.98   fiction
+3791527325         Canterbury Tales        Chaucer, Geoffrey  1 20.00     drama
+3995783225      Old Man and the Sea        Hemingway, Ernest  3  9.95   fiction
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ [K[steinbeck_cr@cobra Prog1]$ exit
+exit
+
+Script done on Thu 28 Jan 2021 06:05:04 PM EST

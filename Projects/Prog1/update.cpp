@@ -32,36 +32,39 @@ struct TransactionRec
 void AddRec(map <long long, long> &m,  TransactionRec &T, int count, fstream &in, fstream &errors)
 {
    BookRec r;
-   if(m.count(T.B.isbn)<0)
+   if(m.count(T.B.isbn)>0)
    {
-       errors<<"Error in transaction number:"<<count<<". Cannot add- duplicate "<<m[T.B.isbn] <<endl;
+       errors<<"Error in transaction number: "<<count<<". Cannot add- duplicate "<< T.B.isbn <<endl;
    }
    else
    {
        in.seekp(0,ios :: end); //Puts file to the end
-       in.write((char *) &r, sizeof(T.B)); //Puts the new isbn in the copy.out file
+       in.write((char *) &T.B, sizeof(T.B)); //Puts the new isbn in the copy.out file
        m[T.B.isbn] =in.tellg(); //Puts it in the map
-   } 
+       cout<<"TEst"<<endl;
+   }
 }
 
 void DeleteRec(map <long long, long> &m, TransactionRec &T, int count, fstream &in, fstream &errors)
 {
     if(m.count(T.B.isbn) == 0)
     {
-        errors<<"Error in transaction number"<<count<<" cannot delete - no such key"<<m[T.B.isbn] <<endl;
+        errors<<"Error in transaction number"<<count<<" cannot delete - no such key"<< T.B.isbn <<endl;
     }
     else{
         m.erase(T.B.isbn); //Deletes the isbn from the map
     }
+
 }
 
 void ChangeRecOnHand(map <long long, long> &m, TransactionRec &T, int count, fstream &in, fstream &errors)
 {
+    
     int onhands =T.B.onhand;
     //Checks if it exists
     if(m.count(T.B.isbn) == 0)
     {
-        errors<<"Error in transaction number"<<count<<" cannot count - no such key"<<m[T.B.isbn] <<endl;
+        errors<<"Error in transaction number"<<count<<" cannot count - no such key"<< T.B.isbn <<endl;
     }
     //Checking if it is a negative number
     else
@@ -75,7 +78,7 @@ void ChangeRecOnHand(map <long long, long> &m, TransactionRec &T, int count, fst
 
         if(difference < 0)
         {
-            errors<<"Error in transaction number: "<<count<<"count == "<<difference<<" for key"<<m[T.B.isbn]<<endl;
+            errors<<"Error in transaction number: "<<count<<"count == "<<difference<<" for key"<< T.B.isbn <<endl;
             r.onhand = 0;
         }
         else{
@@ -85,7 +88,7 @@ void ChangeRecOnHand(map <long long, long> &m, TransactionRec &T, int count, fst
         in.seekg(m[T.B.isbn]-sizeof(T.B), ios ::beg);
         in.write((char *) &r, sizeof(T.B)); //Writes the updated r value to the new map
     }
-
+    
 }
 
 void ChangeRecPrice(map <long long, long> &m, TransactionRec &T, int count, fstream &in, fstream &error)
@@ -94,7 +97,7 @@ void ChangeRecPrice(map <long long, long> &m, TransactionRec &T, int count, fstr
     BookRec r;
     if(m.count(T.B.isbn) == 0)
     {
-        error<<"Error in transaction number"<<count<<" cannot change price --no such key"<<m[T.B.isbn] <<endl;
+        error<<"Error in transaction number"<<count<<" cannot change price --no such key"<< m[T.B.isbn] <<endl;
     }
     else{
         //Goes to the isbn needed
@@ -105,7 +108,7 @@ void ChangeRecPrice(map <long long, long> &m, TransactionRec &T, int count, fstr
         in.write((char *) &r, sizeof(T.B)); //Writes new price to the file
         
     }
-
+    
 }
 
 void printMap(map <long long, long> &m)
@@ -145,15 +148,20 @@ int main(int argc, char* argv[])
 	}
     in.clear();
 
+
+    //Passing in the transaction record to be read and processed
     fstream transCheck(argv[2], ios :: in| ios :: binary);
     int count =0;
-    while(transCheck.read((char *) &T.B, sizeof(BookRec) ))
+    while(transCheck.read((char *) &T, sizeof(TransactionRec) ))
     {       
             count++;
+            cout<<T.B.isbn<<endl;
+            //Conditionals for each of the Transaction Records
             if(T.ToDo == 0)
             {
                 cout<< "Adding ISBN"<<endl;
                 AddRec(BookMap, T, count, in, errors);
+                
             }
             else if(T.ToDo == 1)
              {
@@ -174,17 +182,22 @@ int main(int argc, char* argv[])
        
     }
     transCheck.close(); //Closes the file 
-
+cout << endl <<endl;
     //loops through the updated map to 
     map<long long, long>::iterator itr;
-    BookRec r; //Generic BookRec
+    BookRec r; //Generic BookRecord to store
     for(itr =BookMap.begin(); itr != BookMap.end(); ++itr)
-    {
+    { 
+        
         //Read and write byte offset into the new file
        in.seekg(itr->second - sizeof(BookRec), ios ::beg);
        in.read((char *) &r, sizeof(T.B)); //puts into the bookrecord object
-       out.write((char *) &r, sizeof(T.B)); //Writes outs
+       out.write((char *) &r, sizeof(T.B)); //Writes outs the Book record to be red
+
+       cout << itr->first << ' ' << itr->second << ' ' << r.isbn << endl;
     }
+
+    out.close();
     system("rm copy.out");
     return 0;
 }
