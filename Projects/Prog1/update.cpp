@@ -41,7 +41,7 @@ void AddRec(map <long long, long> &m,  TransactionRec &T, int count, fstream &in
        in.seekp(0,ios :: end); //Puts file to the end
        in.write((char *) &T.B, sizeof(T.B)); //Puts the new isbn in the copy.out file
        m[T.B.isbn] =in.tellg(); //Puts it in the map
-       cout<<"TEst"<<endl;
+       
    }
 }
 
@@ -112,6 +112,7 @@ void ChangeRecPrice(map <long long, long> &m, TransactionRec &T, int count, fstr
 }
 
 void printMap(map <long long, long> &m)
+
 {
     map<long long, long>::iterator itr; 
     for(itr =m.begin(); itr != m.end(); ++itr)
@@ -119,6 +120,17 @@ void printMap(map <long long, long> &m)
         cout << '\t' << itr->first << '\t' << itr->second << '\n'; 
     }
 }
+
+void PrintRecord(BookRec b)
+{
+    cout<<setw(10)<<setfill('0')<<b.isbn
+        <<setw(25)<<setfill(' ')<<b.name
+        <<setw(25)<<b.author
+        <<setw(3)<<b.onhand
+        <<setw(6)<<b.price
+        <<setw(10)<<b.type<<endl;
+}
+
 /////////////////////////////////////////////////////////
 
 int main(int argc, char* argv[])
@@ -135,7 +147,7 @@ int main(int argc, char* argv[])
 
     //
     fstream in("copy.out", ios::in | ios :: out| ios::binary);
-    fstream out (argv[3], ios ::out |ios :: binary);
+    fstream out (argv[3], ios :: in | ios ::out |ios :: binary);
     fstream errors("ERROR", ios :: out );
     //Creates a Map to store the ISBN's and their byte offsets
     map<long long,long > BookMap;
@@ -155,34 +167,33 @@ int main(int argc, char* argv[])
     while(transCheck.read((char *) &T, sizeof(TransactionRec) ))
     {       
             count++;
-            cout<<T.B.isbn<<endl;
+            //cout<<T.B.isbn<<endl;
             //Conditionals for each of the Transaction Records
             if(T.ToDo == 0)
             {
-                cout<< "Adding ISBN"<<endl;
+                //cout<< "Adding ISBN"<<endl;
                 AddRec(BookMap, T, count, in, errors);
                 
             }
             else if(T.ToDo == 1)
              {
-                 cout<< "Deleting ISBN"<<endl;
+                 //cout<< "Deleting ISBN"<<endl;
                  DeleteRec(BookMap, T, count, in, errors);
              }
             else if(T.ToDo == 2)
              {
-                 cout<< "Changing On Hand Amount"<<endl;
+                 //cout<< "Changing On Hand Amount"<<endl;
                  ChangeRecOnHand(BookMap, T, count, in, errors);
              }
             else if(T.ToDo == 3)
              {
-                 cout<<"Changing Price"<<endl;
+                 //cout<<"Changing Price"<<endl;
                  ChangeRecPrice(BookMap,T, count, in, errors);
              }
         
        
     }
     transCheck.close(); //Closes the file 
-cout << endl <<endl;
     //loops through the updated map to 
     map<long long, long>::iterator itr;
     BookRec r; //Generic BookRecord to store
@@ -192,11 +203,11 @@ cout << endl <<endl;
         //Read and write byte offset into the new file
        in.seekg(itr->second - sizeof(BookRec), ios ::beg);
        in.read((char *) &r, sizeof(T.B)); //puts into the bookrecord object
-       out.write((char *) &r, sizeof(T.B)); //Writes outs the Book record to be red
-
-       cout << itr->first << ' ' << itr->second << ' ' << r.isbn << endl;
+       PrintRecord(r);
+       out.write((char *) &r, sizeof(T.B)); //Writes outs the Book record to be red 
     }
-
+    
+    
     out.close();
     system("rm copy.out");
     return 0;

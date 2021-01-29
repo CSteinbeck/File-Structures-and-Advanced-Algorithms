@@ -1,5 +1,5 @@
-Script started on Thu 28 Jan 2021 06:04:14 PM EST
-]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[?1034h[steinbeck_cr@cobra Prog1]$ cat update.cpp
+Script started on Thu 28 Jan 2021 06:46:26 PM EST
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[?1034h[steinbeck_cr@cobra Prog1]$ [K[steinbeck_cr@cobra Prog1]$ cate[K update.cpp
 //Colton Steinbeck
 //Creation of the Database for Binary Books
 
@@ -43,7 +43,7 @@ void AddRec(map <long long, long> &m,  TransactionRec &T, int count, fstream &in
        in.seekp(0,ios :: end); //Puts file to the end
        in.write((char *) &T.B, sizeof(T.B)); //Puts the new isbn in the copy.out file
        m[T.B.isbn] =in.tellg(); //Puts it in the map
-       cout<<"TEst"<<endl;
+       
    }
 }
 
@@ -114,6 +114,7 @@ void ChangeRecPrice(map <long long, long> &m, TransactionRec &T, int count, fstr
 }
 
 void printMap(map <long long, long> &m)
+
 {
     map<long long, long>::iterator itr; 
     for(itr =m.begin(); itr != m.end(); ++itr)
@@ -121,6 +122,17 @@ void printMap(map <long long, long> &m)
         cout << '\t' << itr->first << '\t' << itr->second << '\n'; 
     }
 }
+
+void PrintRecord(BookRec b)
+{
+    cout<<setw(10)<<setfill('0')<<b.isbn
+        <<setw(25)<<setfill(' ')<<b.name
+        <<setw(25)<<b.author
+        <<setw(3)<<b.onhand
+        <<setw(6)<<b.price
+        <<setw(10)<<b.type<<endl;
+}
+
 /////////////////////////////////////////////////////////
 
 int main(int argc, char* argv[])
@@ -137,7 +149,7 @@ int main(int argc, char* argv[])
 
     //
     fstream in("copy.out", ios::in | ios :: out| ios::binary);
-    fstream out (argv[3], ios ::out |ios :: binary);
+    fstream out (argv[3], ios :: in | ios ::out |ios :: binary);
     fstream errors("ERROR", ios :: out );
     //Creates a Map to store the ISBN's and their byte offsets
     map<long long,long > BookMap;
@@ -157,34 +169,33 @@ int main(int argc, char* argv[])
     while(transCheck.read((char *) &T, sizeof(TransactionRec) ))
     {       
             count++;
-            cout<<T.B.isbn<<endl;
+            //cout<<T.B.isbn<<endl;
             //Conditionals for each of the Transaction Records
             if(T.ToDo == 0)
             {
-                cout<< "Adding ISBN"<<endl;
+                //cout<< "Adding ISBN"<<endl;
                 AddRec(BookMap, T, count, in, errors);
                 
             }
             else if(T.ToDo == 1)
              {
-                 cout<< "Deleting ISBN"<<endl;
+                 //cout<< "Deleting ISBN"<<endl;
                  DeleteRec(BookMap, T, count, in, errors);
              }
             else if(T.ToDo == 2)
              {
-                 cout<< "Changing On Hand Amount"<<endl;
+                 //cout<< "Changing On Hand Amount"<<endl;
                  ChangeRecOnHand(BookMap, T, count, in, errors);
              }
             else if(T.ToDo == 3)
              {
-                 cout<<"Changing Price"<<endl;
+                 //cout<<"Changing Price"<<endl;
                  ChangeRecPrice(BookMap,T, count, in, errors);
              }
         
        
     }
     transCheck.close(); //Closes the file 
-cout << endl <<endl;
     //loops through the updated map to 
     map<long long, long>::iterator itr;
     BookRec r; //Generic BookRecord to store
@@ -194,52 +205,18 @@ cout << endl <<endl;
         //Read and write byte offset into the new file
        in.seekg(itr->second - sizeof(BookRec), ios ::beg);
        in.read((char *) &r, sizeof(T.B)); //puts into the bookrecord object
-       out.write((char *) &r, sizeof(T.B)); //Writes outs the Book record to be red
-
-       cout << itr->first << ' ' << itr->second << ' ' << r.isbn << endl;
+       PrintRecord(r);
+       out.write((char *) &r, sizeof(T.B)); //Writes outs the Book record to be red 
     }
-
+    
+    
     out.close();
     system("rm copy.out");
     return 0;
 }]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ c++ update.cpp
-]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ c++ update.cppat[C[C[C[C[C[C[C[C[C[C[Cls[K./viewLib newMas.out a.out library.out transact.out newMas.out[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[22PviewLib newMas.out [7Pc++ update.cpp./viewLib newMas.out a.out library.out transact.out newMas.out
-123766891
-Adding ISBN
-243578325
-Deleting ISBN
-259648323
-Changing On Hand Amount
-1239678325
-Adding ISBN
-TEst
-2269572525
-Adding ISBN
-TEst
-3391679915
-Adding ISBN
-TEst
-3995783225
-Adding ISBN
-TEst
-
-
-123766891 92 123766891
-239678325 184 239678325
-249638325 368 249638325
-259648323 460 259648323
-1229648991 552 1229648991
-1239678325 920 1239678325
-2119674425 644 2119674425
-2269572525 1012 2269572525
-3391679915 1104 3391679915
-3393578325 736 3393578325
-3791527325 828 3791527325
-3995783225 1196 3995783225
-]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ ./a.out library.out transact.out newMas.out[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cc++ update.cpp[Kat[C[C[C[C[C[C[C[C[C[C[Cls[K./viewLib newMas.out 
-[3;J[H[2J[3;J[H[2JContent of newMas.out:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-0123766891               Tom Sawyer              Twain, Mark  2  8.50   fiction
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ c++ update.cppat[C[C[C[C[C[C[C[C[C[C[Cls[Kcd Prog1/jects/[2Pcsc310/[5Plearp README.md /scratch/csc310/steinbeck_cr/Proog1[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ctypescript /scratch/csc310/steinbeck_cr/Prog1[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P*.cpp /scratch/csc310/steinbeck_cr/Prog1
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P/scratch/csc310/steinbeck_cr/Prog1[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cscript[Ktypescript[5Pclear./viewLib newMas.out a.out library.out transact.out newMas.out
+0123766891               Tom Sawyer              Twain, Mark  2   8.5   fiction
 0239678325          Leaves of Grass            Whitman, Walt  8 29.99    poetry
 0249638325             Great Gatsby     Fitzgerald, F. Scott  0  5.99   fiction
 0259648323           Scarlet Letter     Hawthorne, Nathaniel  4  4.78   fiction
@@ -249,11 +226,11 @@ TEst
 2269572525                  Odyssey                    Homer  5  9.99   fiction
 3391679915        Heart of Darkness           Conrad, Joseph  0 14.45   fiction
 3393578325           Les Miserables             Hugo, Victor  2 19.98   fiction
-3791527325         Canterbury Tales        Chaucer, Geoffrey  1 20.00     drama
+3791527325         Canterbury Tales        Chaucer, Geoffrey  1    20     drama
 3995783225      Old Man and the Sea        Hemingway, Ernest  3  9.95   fiction
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ [K[steinbeck_cr@cobra Prog1]$ exit
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog1[steinbeck_cr@cobra Prog1]$ ./a.out library.out transact.out newMas.out[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cc++ update.cpp[Kat[C[C[C[C[C[C[C[C[C[C[Cls[Kcd Prog1/jects/[2Pcsc310/[5Plearp README.md /scratch/csc310/steinbeck_cr/Proog1[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ctypescript /scratch/csc310/steinbeck_cr/Prog1[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P*.cpp /scratch/csc310/steinbeck_cr/Prog1
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P/scratch/csc310/steinbeck_cr/Prog1[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cscript[Ktypescript[5Pclear./viewLib newMas.out a.out library.out transact.out newMas.out[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[22PviewLib newMas.out clear[Ktypescript[4Pscriptcp *.cpp/scratch/csc310/steinbeck_cr/Prog1 /scratch/csc310/steinbeck_cr/Prog1[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ctypescript /scratch/csc310/steinbeck_cr/Prrog1[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CREADME.md /scratch/csc310/steinbeck_cr/Pro[1Pg1[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Clear[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cd csc310/Projects/[3Pg1/ls[Kcat update.cpp++[C[C[C[C[C[C[C[C[C[C[C./a.out library.out transact.out newMas.out[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kexit
 exit
 
-Script done on Thu 28 Jan 2021 06:05:04 PM EST
+Script done on Thu 28 Jan 2021 06:48:25 PM EST
