@@ -85,7 +85,7 @@ void ChangeRecOnHand(map <long long, long> &m, TransactionRec &T, int count, fst
             //Must update the structs value
             r.onhand= onhands;
         }
-        in.seekg(m[T.B.isbn]-sizeof(T.B), ios ::beg);
+        in.seekg(m[T.B.isbn] ios ::beg);
         in.write((char *) &r, sizeof(T.B)); //Writes the updated r value to the new map
     }
     
@@ -139,9 +139,6 @@ int main(int argc, char* argv[])
  TransactionRec T;
    if(argc ==4)
    {
-    string masterfile = argv[1];
-    string transactFile = argv[2];
-    string updatedMaster =argv[3];
     system("cp library.out copy.out");
    }
 
@@ -164,6 +161,7 @@ int main(int argc, char* argv[])
     //Passing in the transaction record to be read and processed
     fstream transCheck(argv[2], ios :: in| ios :: binary);
     int count =0;
+    ///While reading in the transaction file
     while(transCheck.read((char *) &T, sizeof(TransactionRec) ))
     {       
             count++;
@@ -206,8 +204,6 @@ int main(int argc, char* argv[])
        PrintRecord(r);
        out.write((char *) &r, sizeof(T.B)); //Writes outs the Book record to be red 
     }
-    
-    
     out.close();
     system("rm copy.out");
     return 0;
