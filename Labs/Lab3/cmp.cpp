@@ -27,6 +27,14 @@ bool flagCheck(int argc, char *argv[], int &num, bool &cCheck, bool &iCheck)
     }
     return true;
 }
+bool isADirectory(fstream &file1, fstream &file2, char *filename1, char *filename2, char &ch1, char &ch2)
+{
+    file1.get(ch1);
+    file2.get(ch2);
+    if(!file1){cout<<filename1<<" is a directory"<<endl; return true;}
+    if(!file2){cout<<filename2<<" is a directory"<<endl; return true;}
+    return false;    
+}
 
 
 void comparision(char *filename1, char *filename2, bool &iCheck,bool &cCheck, int &num)
@@ -37,7 +45,6 @@ void comparision(char *filename1, char *filename2, bool &iCheck,bool &cCheck, in
     int byteCount=num;
     fstream file1(filename1, ios :: in);
     fstream file2(filename2, ios :: in);
-
     if(!file1){cout<<filename1<<" does not exist"<<endl; return;}
     if(!file2){cout<<filename2<<" does not exist"<<endl; return;}
 
@@ -46,11 +53,12 @@ void comparision(char *filename1, char *filename2, bool &iCheck,bool &cCheck, in
         file1.seekg(num);
         file2.seekg(num);
     }
+    if(isADirectory)
+    {
     while(file1 && file2) //While files are not EOF
     {
         file1.get(ch1);
         file2.get(ch2);
-
         byteCount++; //Keeps the byte accurate to the actual cmp command
         if(ch1 != ch2)
         {
@@ -76,8 +84,9 @@ void comparision(char *filename1, char *filename2, bool &iCheck,bool &cCheck, in
     if(file1 && !file2){
         cout<<"cmp: EOF on " <<filename2<<endl;
     }
-
+    }
 }
+
 
 
 //Main function to run the other functions
