@@ -10,34 +10,56 @@ using namespace std;
 
 string compress(string &myInput)
 {   
-    int difference;
+    
     vector<int> compressionVector;
-    string result= " "; int num; 
+    string result= " "; int num; int prev = num;
     stringstream s1(myInput);
     stringstream outputStream;
+    s1>>prev;
+    compressionVector.push_back(prev);
     while(s1>>num)
     {
-         compressionVector.push_back(num);
-
-            int freq = count(compressionVector.begin(),compressionVector.end(),num); //Identifies the frequency as the number of times that number appears
-            if(freq < 4)
-            { 
-                outputStream<<num;
-                outputStream<<" ";
+        if(num ==prev)
+        {
+          compressionVector.push_back(num);
+        }
+        else
+        {
+          int freq = count(compressionVector.begin(),compressionVector.end(),prev); //Identifies the frequency as the number of times that number appears
+          if(freq >= 4)
+          {
+            outputStream<< "ff ";
+            outputStream<< prev << " ";
+            outputStream<< freq<< " ";
+            compressionVector.clear();
+          }
+          else{
+            for(int i =0; i<=freq; i++){
+              outputStream<< prev<< " ";
+              
             }
-            else
+            compressionVector.clear();
+          }
+        }
+        prev = num;   
+    }
+    int freq = count(compressionVector.begin(),compressionVector.end(),prev); //Identifies the frequency as the number of times that number appears
+          if(freq >= 4)
+          {
+            outputStream<< "ff ";
+            outputStream<< prev << " ";
+            outputStream<< freq<< " ";
+            compressionVector.clear();
+          }
+          else{
+            for(int i =0; i<=freq; i++)
             {
-              outputStream<< "ff ";
-              outputStream <<num << " ";
-              outputStream<<freq<< " "; 
-              do{
-                s1>>num;
-                freq--;
-              }while(freq>1); 
+              outputStream<< prev<< " ";
+              
             }
-
-         }
-
+            compressionVector.clear();
+          }
+        //Outputs all items to result
         result= outputStream.str();
         return result;
     }
@@ -46,6 +68,17 @@ string compress(string &myInput)
 
 // string uncompress(string &cResult)
 // {
+//   string curr; string prev;
+//   stringstream s2(cResult);
+//   s2>>prev;
+//   while(s2>>curr)
+//   {
+//     if(curr =="ff")
+//     {
+
+//     }
+//   }
+
 //     string result;
 //     return result;
 // }
