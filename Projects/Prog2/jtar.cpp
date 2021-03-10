@@ -16,27 +16,109 @@
 using namespace std;
 using recursive_directory_iterator = filesystem::recursive_directory_iterator;
 
-bool flagCheck(int argc, char *argv[], bool &cfCheck, bool &tfCheck, bool &xfCheck, bool helpCheck)
+//Gets all the relevant stat information for each file
+File createFile(string files)
+{
+   stringstream s1;
+   struct stat buf;
+
+
+   lstat(files.c_str(), &buf); //populates the stat buff with the stats for the file
+   s1<< ((buf.st_mode & S_IRWXU) >> 6) << ((buf.st_mode & S_IRWXG) >> 3) << (buf.st_mode & S_IRWXO);
+   string pmode = s1.str();
+   s1.clear();
+   string size = to_string(buf.st_size);
+    char stamp[16]; 
+    strftime(stamp, 16, "%Y%m%d%H%M.%S", localtime(&buf.st_ctime));
+    bool isADirect = S_ISDIR(buf.st_mode); //Checks if the object is a directory
+    File f(files.c_str(),pmode.c_str(), size.c_str(),stamp); //FILE OBJECT
+    if(isADirect){f.flagAsDir();} //Flags as a directory
+    return f;
+}
+
+
+void getFiles(vector<File> &f, int& count)
+{
+    //File file;
+    for(auto p: recursive_directory_iterator(f[0].getName())) //Loops through the file vector and pulls the correspoding directory and directory size to review 
+    {    //cout << p.path() << '\n'; //Prints out the pathway for the file instead of the actual name
+        f.push_back(createFile(p.path()));
+        count++;
+    }
+}
+
+//Compression of files 
+int cf(int fileNum, string &fileName, fstream &binaryOut)
 {
     
-    for (int i =0; i<argc; i++)
+    vector<File>fVector;
+    File f1= createFile(fileName); //Creates the file based on the file name
+    
+    int count = 0; //Keeps count of the number of items in the file
+    if(f1.isADir())
     {
-        string str = argv[i];
+        fVector.push_back(f1); //Pushes to the Vector
+
+        count++; //Increments the count of the # of files
+        getFiles(fVector, count);
+        
+    }
+    cout<<count<<endl;
+    for(int i=0; i<count; i++)
+    {
+        //Writes out one file object in binary
+        cout<<"prewrite"<<endl;
+        binaryOut.write((char *) &fVector[i], sizeof(fVector[i])); //Writes the file contents into the binary file
+        cout<<"Mid-write"<<endl;
+        cout<<fVector[i].getName()<<endl; //Gets the name of the file
+        cout<<"Post-write"<<endl;
+        if(!fVector[i].isADir())
+        {
+            fstream openFile(fVector[i].getName().c_str(),ios ::in ); //Opens the vector 
+            cout<<"T3"<<endl;
+            cout<<fVector[i].getSize()<<endl;
+            int newSize =atoi(fVector[i].getSize().c_str()); //Gets the size of the individual file for the project
+            cout<<newSize<<endl;
+            char contents[newSize]; //Creates an array based on the size of vector and stores the file vector into contents
+            cout<<"T1"<<endl;
+            openFile.read(contents, newSize); //Reads the vector contensts into a char array
+            cout<<"T2"<<endl;
+            binaryOut.write(contents, newSize); //Writes out the binary output
+        }  
+    }
+    return fVector.size(); //Returns the # of files compressed
+    
+}
+
+bool flagCheck(int argc, char *argv[], bool &cfCheck, bool &tfCheck, bool &xfCheck, bool &helpCheck)
+{
+    fstream binaryOut("tarfile", ios::out | ios::binary);
+
+        string str = argv[1];
         if(str == "-cf")
         {
             cfCheck =true;
-             
+            int num =0;
+            binaryOut.write((char* )&num, sizeof(num));
+            for(int j=3; j<argc; j++)
+            {
+                string fileName =argv[j];
+                int fileNum = j-3; //Keeps track of what file you're pulling in
+                cout<<"FUCK"<<endl;
+                num += cf(fileNum,fileName, binaryOut); //Compresses the file and collects the number of files that are compressed (One at the time)
+
+            }
+            binaryOut.seekg(0); //Points to the beginning of the file and preps to put the total number of files
+            binaryOut.write((char *) &num, sizeof(num)); //writes out the size of the file to the binary output file
         }
-        else if(str == "-tf")
-        {
-            tfCheck= true;
-            //tf();
-        }
-        else if(str == "-xf")
-        {
-            xfCheck= true;
-            //xf();
-        }
+        // else if(str == "-tf")
+        // {
+        //     tfCheck= true;
+        // }
+        // else if(str == "-xf")
+        // {
+        //     xfCheck= true;
+        // }
         else if(str == "--help")
         {
           printf("system cat help");  
@@ -46,61 +128,8 @@ bool flagCheck(int argc, char *argv[], bool &cfCheck, bool &tfCheck, bool &xfChe
         {
             return false;
         }
-    }
     return true;
 }
-
-void getFiles(vector<File> &f)
-{
-    for(auto p: recursive_directory_iterator(f))
-        //cout << p.path() << '\n'; //Prints out the pathway for the file instead of the actual name
-        f.push_back(getStats(p.path()));
-}
-
-//Gets all the relevant stat information for each file
-File getStats(string files)
-{
-    stringstream s1;
-
-    struct stat buf;
-    lstat(files.c_str(), &buf); //populates the stat buff with the stats for the file
-    //Prints the file name into  file object name
-    //snprintf(name, 81, files.c_str()); //Prints into a string and includes n characters
-    //Prints out the protection of the givem file
-    s1<< ((buf.st_mode & S_IRWXU) >> 6) << ((buf.st_mode & S_IRWXG) >> 3) << (buf.st_mode & S_IRWXO);
-   string pmode = s1.str();
-   s1.clear();
-   s1<<buf.st_size;
-   string size =s1.str();
-    char stamp[16]; 
-    strftime(stamp, 16, "%Y%m%d%H%M.%S", localtime(&buf.st_ctime));
-    bool isADirect = S_ISDIR(buf.st_mode); //Checks if the object is a directory
-    File f(files.c_str(),pmode.c_str(), size.c_str(),stamp); //FILE OBJECT
-    if(isADirect){f.flagAsDir();} //Flags as a directory
-    return f;
-}
-
-//fileNum is number of files present and *files is the pointer to the array of files present 
-void compress(int fileNum, string *files )
-{
-    vector<File>f;
-    getFiles(f);
-
-}
-// void cf()
-// {
-
-// }
-
-// void tf()
-// {
-
-// }
-
-// void xf()
-// {
-
-// }
 
 
 
@@ -120,11 +149,8 @@ int main(int argc, char *argv[])
     {
         cerr<<"Invalid amount of arguments"<<endl;
     }
-    if( flagCheck(argc, argv, cfCheck, tfCheck, xfCheck, helpCheck))
-    {
-        //comparision(argv[argc-2], argv[argc -1],iCheck, cCheck, num);
+    if(flagCheck(argc, argv, cfCheck, tfCheck, xfCheck, helpCheck)){}
 
-    }
     else{
         cerr<<"Invalid number of arguments"<<endl;
         cout<<"Please format your input accordingly: jtar [-cf] tarfile file1 dir1"<<endl;
