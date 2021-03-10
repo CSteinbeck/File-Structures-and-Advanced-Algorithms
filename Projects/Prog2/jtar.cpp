@@ -36,6 +36,13 @@ File createFile(string files)
     return f;
 }
 
+bool dirExist(string files)
+{
+   struct stat buf;
+   lstat(files.c_str(), &buf); //populates the stat buff with the stats for the file
+   return S_ISDIR(buf.st_mode);
+}
+
 
 void getFiles(vector<File> &f, int& count)
 {
@@ -48,7 +55,7 @@ void getFiles(vector<File> &f, int& count)
 }
 
 //Compression of files 
-int cf(int fileNum, string &fileName, fstream &binaryOut)
+int compress(int fileNum, string &fileName, fstream &binaryOut)
 {
     
     vector<File>fVector;
@@ -70,7 +77,7 @@ int cf(int fileNum, string &fileName, fstream &binaryOut)
         cout<<"prewrite"<<endl;
         binaryOut.write((char *) &fVector[i], sizeof(fVector[i])); //Writes the file contents into the binary file
         cout<<"Mid-write"<<endl;
-        cout<<fVector[i].getName()<<endl; //Gets the name of the file
+        cout<<fVector[i].getName()<<endl; //Gets the name of
         cout<<"Post-write"<<endl;
         if(!fVector[i].isADir())
         {
@@ -89,36 +96,87 @@ int cf(int fileNum, string &fileName, fstream &binaryOut)
     return fVector.size(); //Returns the # of files compressed
     
 }
+void tf(char* filename)
+{
+    File f1; //Temp File object to store curr file to print
+    fstream binaryOut(filename, ios:: in | ios :: binary);
+    vector<File>fVector1;
+    int size;
+    binaryOut.read((char*) &size, sizeof(int)); //Writes out the binary values to a single int (think of stringstream inputs)
+    for(int i =0; i < size; i++)
+    {
+        binaryOut.read((char *) &f1, sizeof(f1)); //Contains the file record with name and size
+        cout<< f1.getName()<<endl; //Prints name
+        if(!f1.isADir()) //If it is not a directory
+        {
+            binaryOut.seekg(atoi(f1.getSize().c_str()), ios :: cur); //Sets the pointer to move towards the next file size (efectively skips over it)
+        }
+    }
+}
+void xf(char* filename)
+{
+    File f1; //Temp File object to store curr file to print
+    fstream binaryOut(filename, ios:: in | ios :: binary);
+    int size;
+    binaryOut.read((char*) &size, sizeof(int)); //Writes out the binary values to a single int (think of stringstream inputs)
+    for(int i =0; i < size; i++)
+    {
+        binaryOut.read((char *) &f1, sizeof(f1)); //Contains the file record with name and size
+        
+        if(!f1.isADir()) //If it is not a directory (IF IT IS A FILE)
+        {
+            fstream newFile(f1.getName().c_str(), ios ::out); //Creates new file to read in
+            int num = atoi(f1.getSize().c_str()); 
+            char contents[num]; //Sets the size of the char array taht can hold the contents of the file
+            binaryOut.read(contents, num); //Contains the file record with name and size
+            newFile.write(contents, num); //Decompresses and writes the new files to the output
+            system(("touch -t "+f1.getStamp()+" "+f1.getName()).c_str()); //Gets the accurate time stamp
+            system(("chmod "+f1.getPmode()+" "+f1.getName()).c_str());  //Gets the same permissions from the original file
+        }
+        else if(!dirExist(f1.getName()))//Checks if it is a directory that exists already
+        {
+            system(("mkdir "+f1.getName()).c_str()); //Returns the string into a cstring and creates the directory if it exist
+            system(("touch -t "+f1.getStamp()+" "+f1.getName()).c_str()); //Gets the accurate time stamp
+            system(("chmod "+f1.getPmode()+" "+f1.getName()).c_str());  //Gets the same permissions from the original file
+            
+        }
+    }
+}
+
+
+
 
 bool flagCheck(int argc, char *argv[], bool &cfCheck, bool &tfCheck, bool &xfCheck, bool &helpCheck)
 {
-    fstream binaryOut("tarfile", ios::out | ios::binary);
-
         string str = argv[1];
         if(str == "-cf")
         {
+            fstream binaryOut(argv[2], ios::out | ios::binary);
             cfCheck =true;
             int num =0;
-            binaryOut.write((char* )&num, sizeof(num));
+            binaryOut.write((char* )&num, sizeof(num));//Writes out the size of num originally in the file
             for(int j=3; j<argc; j++)
             {
                 string fileName =argv[j];
                 int fileNum = j-3; //Keeps track of what file you're pulling in
                 cout<<"FUCK"<<endl;
-                num += cf(fileNum,fileName, binaryOut); //Compresses the file and collects the number of files that are compressed (One at the time)
+                num += compress(fileNum,fileName, binaryOut); //Compresses the file and collects the number of files that are compressed (One at the time)
 
             }
             binaryOut.seekg(0); //Points to the beginning of the file and preps to put the total number of files
             binaryOut.write((char *) &num, sizeof(num)); //writes out the size of the file to the binary output file
         }
-        // else if(str == "-tf")
-        // {
-        //     tfCheck= true;
-        // }
-        // else if(str == "-xf")
-        // {
-        //     xfCheck= true;
-        // }
+        else if(str == "-tf")
+        {
+            tfCheck= true;
+            tf(argv[2]);
+        }
+        else if(str == "-xf")
+        {
+            xfCheck= true;
+            xf(argv[2]);
+
+        }
         else if(str == "--help")
         {
           printf("system cat help");  
@@ -130,9 +188,6 @@ bool flagCheck(int argc, char *argv[], bool &cfCheck, bool &tfCheck, bool &xfChe
         }
     return true;
 }
-
-
-
 
 
 
