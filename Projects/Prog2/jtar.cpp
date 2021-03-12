@@ -62,7 +62,7 @@ int compress(int fileNum, string &fileName, fstream &binaryOut)
     File f1= createFile(fileName); //Creates the file based on the file name
     
     int count = 0; //Keeps count of the number of items in the file
-    if(f1.isADir())
+    if(f1.isADir()) //Checks if it is a directory
     {
         fVector.push_back(f1); //Pushes to the Vector
 
@@ -70,26 +70,26 @@ int compress(int fileNum, string &fileName, fstream &binaryOut)
         getFiles(fVector, count);
         
     }
-    cout<<count<<endl;
+    //cout<<count<<endl;
     for(int i=0; i<count; i++)
     {
         //Writes out one file object in binary
-        cout<<"prewrite"<<endl;
+        //cout<<"prewrite"<<endl;
         binaryOut.write((char *) &fVector[i], sizeof(fVector[i])); //Writes the file contents into the binary file
-        cout<<"Mid-write"<<endl;
+        //cout<<"Mid-write"<<endl;
         cout<<fVector[i].getName()<<endl; //Gets the name of
-        cout<<"Post-write"<<endl;
+        //cout<<"Post-write"<<endl;
         if(!fVector[i].isADir())
         {
             fstream openFile(fVector[i].getName().c_str(),ios ::in ); //Opens the vector 
-            cout<<"T3"<<endl;
+            //cout<<"T3"<<endl;
             cout<<fVector[i].getSize()<<endl;
             int newSize =atoi(fVector[i].getSize().c_str()); //Gets the size of the individual file for the project
-            cout<<newSize<<endl;
+            //cout<<newSize<<endl;
             char contents[newSize]; //Creates an array based on the size of vector and stores the file vector into contents
-            cout<<"T1"<<endl;
+            //cout<<"T1"<<endl;
             openFile.read(contents, newSize); //Reads the vector contensts into a char array
-            cout<<"T2"<<endl;
+            //cout<<"T2"<<endl;
             binaryOut.write(contents, newSize); //Writes out the binary output
         }  
     }
@@ -106,7 +106,7 @@ void tf(char* filename)
     for(int i =0; i < size; i++)
     {
         binaryOut.read((char *) &f1, sizeof(f1)); //Contains the file record with name and size
-        cout<< f1.getName()<<endl; //Prints name
+        cout<< f1 n.getName()<<endl; //Prints name
         if(!f1.isADir()) //If it is not a directory
         {
             binaryOut.seekg(atoi(f1.getSize().c_str()), ios :: cur); //Sets the pointer to move towards the next file size (efectively skips over it)
