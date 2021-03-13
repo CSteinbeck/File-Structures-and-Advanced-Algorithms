@@ -62,7 +62,7 @@ int compress(int fileNum, string &fileName, fstream &binaryOut)
     File f1= createFile(fileName); //Creates the file based on the file name
     
     int count = 0; //Keeps count of the number of items in the file
-    if(f1.isADir()) //Checks if it is a directory
+    if(f1.isADir())
     {
         fVector.push_back(f1); //Pushes to the Vector
 
@@ -74,7 +74,7 @@ int compress(int fileNum, string &fileName, fstream &binaryOut)
     for(int i=0; i<count; i++)
     {
         //Writes out one file object in binary
-        //cout<<"prewrite"<<endl;
+        cout<<"prewrite"<<endl;
         binaryOut.write((char *) &fVector[i], sizeof(fVector[i])); //Writes the file contents into the binary file
         //cout<<"Mid-write"<<endl;
         cout<<fVector[i].getName()<<endl; //Gets the name of
@@ -106,7 +106,7 @@ void tf(char* filename)
     for(int i =0; i < size; i++)
     {
         binaryOut.read((char *) &f1, sizeof(f1)); //Contains the file record with name and size
-        cout<< f1 n.getName()<<endl; //Prints name
+        cout<< f1.getName()<<endl; //Prints name
         if(!f1.isADir()) //If it is not a directory
         {
             binaryOut.seekg(atoi(f1.getSize().c_str()), ios :: cur); //Sets the pointer to move towards the next file size (efectively skips over it)
