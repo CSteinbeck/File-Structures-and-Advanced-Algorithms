@@ -39,7 +39,19 @@ class Artist {
 
 void formatFile(fstream &RawMusicFile)
 {
-  if(){}//If there is a underscore in the stringstream
+  if(!RawMusicFile.is_open())
+  {
+    cout<<"File cannot be opened"<<endl;
+  }
+  string str;
+  char ch;
+  while(getline(RawMusicFile,str) || !RawMusicFile.eof()) //Inputs the file in string by string
+  {
+    if(ch == '_')
+    {
+      
+    }
+  }
 }
 
 
@@ -49,7 +61,7 @@ int main(int argc, char *argv[])
   {
     cout<<"mp3: Missing filename 'mp3' "<<endl;
   } 
-  string filename= argv[2];
+  string filename= argv[1];
   fstream RawMusicFile(filename.c_str(), ios :: in); //Pumps into a fstream to read in
   formatFile(RawMusicFile);
 
