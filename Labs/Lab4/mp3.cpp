@@ -37,3 +37,21 @@ class Artist {
      bool operator < (Artist another) const { return name < another.name;}
 };
 
+void formatFile(fstream &RawMusicFile)
+{
+  if(){}//If there is a underscore in the stringstream
+}
+
+
+int main(int argc, char *argv[])
+{
+  if(argc < 2) //Error Checking
+  {
+    cout<<"mp3: Missing filename 'mp3' "<<endl;
+  } 
+  string filename= argv[2];
+  fstream RawMusicFile(filename.c_str(), ios :: in); //Pumps into a fstream to read in
+  formatFile(RawMusicFile);
+
+  return 0;
+}
