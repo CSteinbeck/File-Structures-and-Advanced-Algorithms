@@ -24,6 +24,6 @@ class Album
        int recordSize();
 
    private :
-       String UPC, Artist, Title;
+       String UPC, Artist, Title; //UPC is the key (think ISBN)
 };
 #endif
