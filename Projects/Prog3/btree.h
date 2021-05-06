@@ -21,7 +21,7 @@ struct BTNode
 {
         int currSize;
         ValueArray contents;
-        IndexArray child;
+        IndexArray child = {-1,-1,-1,-1,-1};
 }; 
 
 struct Pair

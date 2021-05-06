@@ -13,7 +13,7 @@ const int NumCities = 435;
 
 struct Bucket
 {
-	int currSize;
+	int currSize; //the number of keys that map here//
 	String key[3];
 };
 
@@ -28,7 +28,7 @@ int hashSearch (string key, Bucket mybucks[]);
 int main()
 {
 	fstream infile("cities.dat", ios::in);
-	int array[300] = {0};
+	int array[300] = {0}; //Poisson Distrubution
         Bucket mybucks[300];
 
 	flushBuckets(mybucks);
@@ -51,7 +51,7 @@ void flushBuckets(Bucket mybucks[])
 	{
 		mybucks[i].currSize = 0;
 		for (int j = 0;  j < 3;  j++)
-			strcpy (mybucks[i].key[j], "///");
+			strcpy (mybucks[i].key[j], "///"); //Fills the with an empty symbol
 	}
 }
 
@@ -67,7 +67,7 @@ void buildHashArray(fstream& infile, int array[], Bucket mybucks[])
                 array[slot] += 1;
                 mybucks[slot].currSize += 1;
 		i = 0;
-                while(strcmp(mybucks[slot].key[i],"///") != 0)
+                while(strcmp(mybucks[slot].key[i],"///") != 0) //strcmp produces 0 if a match
                 {
 			i++;
 			if (i == 3)
@@ -75,7 +75,7 @@ void buildHashArray(fstream& infile, int array[], Bucket mybucks[])
 			i = 0;
 			cout<<"Overflow at "<<slot<<" on hash of "<<s<< endl;
 			slot++;
-			if (slot > 299)
+			if (slot > 299) //300 is the max number of addresses
 				slot = 0;
 			}
 		}
@@ -115,26 +115,54 @@ void numCollisions(int array[])
 
 int hashMe (string key, int maxAddresses)
 {
+	string s; int sum;
+	for(int i=0; i<key.length();i++)
+	{
+		if(isalpha(key[i]))
+		{
+			s+=toupper[key[i]];
 
-	// Post:  Folds string key into an integer and returns it
+		}
+	}
+	if(s.length() %2 ==1)
+	{
+		s+= 'Z';
+	}
+	for(int i =0; i<s.length(); i+=2)
+	{
+		int temp =0;
+		temp +=int(s[i]) *100;
+		temp += int(s[i+1]);
+		sum += temp;
+	}
+	sum %= 36373;
+	return sum % maxAddresses;
 	
 
 }
 
 int hashSearch (string key, Bucket mybucks[])
 {
-	// Searches for string key in your array of buckets using strcmp.
-	// Pre :  Array of 300 buckets each of size 3 has been initialized
-	// Post : Returns the the number of probe checks needed to find key
-
-
-        // Find the location your key hashes to in your array by calling hashMe.  Print out that location.
-
-
-        
-        // Use a while loop that continues until it finds key.  Return number of checks to find.
-        // Otherwise, return a -1.
-        
+	int slot = hashMe(key, 300);
+	cout<<"Slot a:"<<slot<<endl;
+	int i=0; int checks=1;
+	while(strcmp(mybucks[slot].key[i],"///") != 0)
+	{
+		if(strcmp(mybucks[slot].key[i],key.c_str()) == 0)
+		{
+			return checks;
+		}
+		i++; checks++;
+		if(i==3){
+			i=0;
+			slot++;
+			if(slot >299)
+			{
+				slot = 0;
+			}
+		}
+	}
+    return -1;    
 
 
 }
@@ -144,6 +172,16 @@ void printBuckets(Bucket mybucks[])
 	// Pre:  Our array of 300 buckets size 3 has been initialized
 	// Post:  Our array is printed out on 300 lines, with the 3 keys inside each bucket per line
 
+	for(int i =0; i<300; i++)
+	{
+		cout<< "i = "<<i;
+		cout<<"size = "<<mybucks[i].currSize<<" ";
+		for(int j =0; j <3; j++)
+		{
+			cout<< mybucks[i].key[j]<<" ";
+		}
+		cout<<endl;
+	}
 
 
 
