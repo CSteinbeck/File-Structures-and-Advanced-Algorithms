@@ -1,0 +1,1738 @@
+Inserting Album: 08722
+Leaf Node, Address is here
+Insert into empty Root
+Fininshed Inserting: 08722
+624
+    *** Node of Size: 1 ***     
+08722
+
+
+Inserting Album: 75599
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 2
+Cont[0] = 08722
+Cont[1] = 75599
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+After Sorting
+Cont[0] = 08722
+Cont[1] = 75599
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Fininshed Inserting: 75599
+624
+    *** Node of Size: 2 ***     
+08722
+75599
+
+
+Inserting Album: 42276
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 08722
+Cont[1] = 75599
+Cont[2] = 42276
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 08722
+Cont[1] = 42276
+Cont[2] = 75599
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 42276
+624
+    *** Node of Size: 3 ***     
+08722
+42276
+75599
+
+
+Inserting Album: 02284
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 08722
+Cont[1] = 42276
+Cont[2] = 75599
+Cont[3] = 02284
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 02284
+Cont[1] = 08722
+Cont[2] = 42276
+Cont[3] = 75599
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 02284
+624
+    *** Node of Size: 4 ***     
+02284
+08722
+42276
+75599
+
+
+Inserting Album: 20831
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 02284
+Cont[1] = 08722
+Cont[2] = 42276
+Cont[3] = 75599
+Key = 20831
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+Bubble Sort (Split Node)
+Interior Node Split Check
+
+After sorting
+Cont[0] = 02284
+Cont[1] = 08722
+Cont[2] = 20831
+Cont[3] = 42276
+Key = 75599
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  624
+rootAddr: 624
+Adjusting Root
+New Root Addr: 1872
+Updating Header Info
+New Root Addr: 1872
+Successful Write
+Fininshed Inserting: 20831
+1872
+    *** Node of Size: 1 ***     
+20831
+624
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+
+
+Inserting Album: 99000
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 42276
+Cont[1] = 75599
+Cont[2] = 99000
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+After Sorting
+Cont[0] = 42276
+Cont[1] = 75599
+Cont[2] = 99000
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 99000
+1872
+    *** Node of Size: 1 ***     
+20831
+624
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00100
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 02284
+Cont[1] = 08722
+Cont[2] = 00100
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00100
+Cont[1] = 02284
+Cont[2] = 08722
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 00100
+1872
+    *** Node of Size: 1 ***     
+20831
+624
+    *** Node of Size: 3 ***     
+00100
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00101
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00100
+Cont[1] = 02284
+Cont[2] = 08722
+Cont[3] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 02284
+Cont[3] = 08722
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 00101
+1872
+    *** Node of Size: 1 ***     
+20831
+624
+    *** Node of Size: 4 ***     
+00100
+00101
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00102
+Recursion for Find Address
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 02284
+Cont[3] = 08722
+Key = 00102
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+Bubble Sort (Split Node)
+Interior Node Split Check
+
+After sorting
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 00102
+Cont[3] = 02284
+Key = 08722
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  624
+rootAddr: 1872
+About to insert into parent node
+Standard Insertion
+About to sort in the insert function
+Size = 2
+Cont[0] = 20831
+Cont[1] = 00102
+Child[0] = 624
+Child[1] = 1248
+Child[2] = 2496
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00102
+Cont[1] = 20831
+Child[0] = 624
+Child[1] = 2496
+Child[2] = 1248
+Fininshed Inserting: 00102
+1872
+    *** Node of Size: 2 ***     
+00102
+20831
+624
+    *** Node of Size: 2 ***     
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00000
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 00000
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00000
+Cont[1] = 00100
+Cont[2] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 00000
+1872
+    *** Node of Size: 2 ***     
+00102
+20831
+624
+    *** Node of Size: 3 ***     
+00000
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00001
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00000
+Cont[1] = 00100
+Cont[2] = 00101
+Cont[3] = 00001
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00000
+Cont[1] = 00001
+Cont[2] = 00100
+Cont[3] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 00001
+1872
+    *** Node of Size: 2 ***     
+00102
+20831
+624
+    *** Node of Size: 4 ***     
+00000
+00001
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00002
+Recursion for Find Address
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00000
+Cont[1] = 00001
+Cont[2] = 00100
+Cont[3] = 00101
+Key = 00002
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+Bubble Sort (Split Node)
+Interior Node Split Check
+
+After sorting
+Cont[0] = 00000
+Cont[1] = 00001
+Cont[2] = 00002
+Cont[3] = 00100
+Key = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  624
+rootAddr: 1872
+About to insert into parent node
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 00102
+Cont[1] = 20831
+Cont[2] = 00002
+Child[0] = 624
+Child[1] = 2496
+Child[2] = 1248
+Child[3] = 3120
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00002
+Cont[1] = 00102
+Cont[2] = 20831
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 2496
+Child[3] = 1248
+Fininshed Inserting: 00002
+1872
+    *** Node of Size: 3 ***     
+00002
+00102
+20831
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00003
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 00003
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00003
+Cont[1] = 00100
+Cont[2] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 00003
+1872
+    *** Node of Size: 3 ***     
+00002
+00102
+20831
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 3 ***     
+00003
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00004
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00003
+Cont[1] = 00100
+Cont[2] = 00101
+Cont[3] = 00004
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00003
+Cont[1] = 00004
+Cont[2] = 00100
+Cont[3] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 00004
+1872
+    *** Node of Size: 3 ***     
+00002
+00102
+20831
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 4 ***     
+00003
+00004
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 00005
+Recursion for Find Address
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00003
+Cont[1] = 00004
+Cont[2] = 00100
+Cont[3] = 00101
+Key = 00005
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+Bubble Sort (Split Node)
+Interior Node Split Check
+
+After sorting
+Cont[0] = 00003
+Cont[1] = 00004
+Cont[2] = 00005
+Cont[3] = 00100
+Key = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  3120
+rootAddr: 1872
+About to insert into parent node
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00002
+Cont[1] = 00102
+Cont[2] = 20831
+Cont[3] = 00005
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 2496
+Child[3] = 1248
+Child[4] = 3744
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00102
+Cont[3] = 20831
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 2496
+Child[4] = 1248
+Fininshed Inserting: 00005
+1872
+    *** Node of Size: 4 ***     
+00002
+00005
+00102
+20831
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 3 ***     
+42276
+75599
+99000
+
+
+Inserting Album: 99999
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 42276
+Cont[1] = 75599
+Cont[2] = 99000
+Cont[3] = 99999
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+After Sorting
+Cont[0] = 42276
+Cont[1] = 75599
+Cont[2] = 99000
+Cont[3] = 99999
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 99999
+1872
+    *** Node of Size: 4 ***     
+00002
+00005
+00102
+20831
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00100
+00101
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 4 ***     
+42276
+75599
+99000
+99999
+
+
+Inserting Album: 99998
+Recursion for Find Address
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 42276
+Cont[1] = 75599
+Cont[2] = 99000
+Cont[3] = 99999
+Key = 99998
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+
+After sorting
+Cont[0] = 42276
+Cont[1] = 75599
+Cont[2] = 99000
+Cont[3] = 99998
+Key = 99999
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  1248
+rootAddr: 1872
+About to insert into parent node
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00102
+Cont[3] = 20831
+Key = 99000
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 2496
+Child[4] = 1248
+Right = 4368
+
+After sorting
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00102
+Cont[3] = 20831
+Key = 99000
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 2496
+Child[4] = 1248
+Right = 4368
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  1872
+rootAddr: 1872
+Adjusting Root
+New Root Addr: 5616
+Updating Header Info
+New Root Addr: 5616
+Successful Write
+Fininshed Inserting: 99998
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 2 ***     
+00002
+00005
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00006
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 00006
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00006
+Cont[1] = 00100
+Cont[2] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 00006
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 2 ***     
+00002
+00005
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 3 ***     
+00006
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00007
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00006
+Cont[1] = 00100
+Cont[2] = 00101
+Cont[3] = 00007
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00006
+Cont[1] = 00007
+Cont[2] = 00100
+Cont[3] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 00007
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 2 ***     
+00002
+00005
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 4 ***     
+00006
+00007
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00008
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00006
+Cont[1] = 00007
+Cont[2] = 00100
+Cont[3] = 00101
+Key = 00008
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+Bubble Sort (Split Node)
+Interior Node Split Check
+
+After sorting
+Cont[0] = 00006
+Cont[1] = 00007
+Cont[2] = 00008
+Cont[3] = 00100
+Key = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  3744
+rootAddr: 5616
+About to insert into parent node
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00008
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 6240
+After Sorting
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00008
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 6240
+Fininshed Inserting: 00008
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 3 ***     
+00002
+00005
+00008
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00006
+00007
+6240
+    *** Node of Size: 2 ***     
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00009
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 00009
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00009
+Cont[1] = 00100
+Cont[2] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 00009
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 3 ***     
+00002
+00005
+00008
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00006
+00007
+6240
+    *** Node of Size: 3 ***     
+00009
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00010
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00009
+Cont[1] = 00100
+Cont[2] = 00101
+Cont[3] = 00010
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00009
+Cont[1] = 00010
+Cont[2] = 00100
+Cont[3] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 00010
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 3 ***     
+00002
+00005
+00008
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00006
+00007
+6240
+    *** Node of Size: 4 ***     
+00009
+00010
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00011
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00009
+Cont[1] = 00010
+Cont[2] = 00100
+Cont[3] = 00101
+Key = 00011
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+Bubble Sort (Split Node)
+Interior Node Split Check
+
+After sorting
+Cont[0] = 00009
+Cont[1] = 00010
+Cont[2] = 00011
+Cont[3] = 00100
+Key = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  6240
+rootAddr: 5616
+About to insert into parent node
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00008
+Cont[3] = 00011
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 6240
+Child[4] = 6864
+After Sorting
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00008
+Cont[3] = 00011
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 6240
+Child[4] = 6864
+Fininshed Inserting: 00011
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 4 ***     
+00002
+00005
+00008
+00011
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00006
+00007
+6240
+    *** Node of Size: 2 ***     
+00009
+00010
+6864
+    *** Node of Size: 2 ***     
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00012
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 3
+Cont[0] = 00100
+Cont[1] = 00101
+Cont[2] = 00012
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00012
+Cont[1] = 00100
+Cont[2] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Fininshed Inserting: 00012
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 4 ***     
+00002
+00005
+00008
+00011
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00006
+00007
+6240
+    *** Node of Size: 2 ***     
+00009
+00010
+6864
+    *** Node of Size: 3 ***     
+00012
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00013
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+Standard Insertion
+About to sort in the insert function
+Size = 4
+Cont[0] = 00012
+Cont[1] = 00100
+Cont[2] = 00101
+Cont[3] = 00013
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Bubble Sort
+Interior Node Check
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00012
+Cont[1] = 00013
+Cont[2] = 00100
+Cont[3] = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Fininshed Inserting: 00013
+5616
+    *** Node of Size: 1 ***     
+00102
+1872
+    *** Node of Size: 4 ***     
+00002
+00005
+00008
+00011
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00006
+00007
+6240
+    *** Node of Size: 2 ***     
+00009
+00010
+6864
+    *** Node of Size: 4 ***     
+00012
+00013
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+Inserting Album: 00014
+Recursion for Find Address
+Recursion for Find Address
+Leaf Node, Address is here
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00012
+Cont[1] = 00013
+Cont[2] = 00100
+Cont[3] = 00101
+Key = 00014
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Interior Node Split Check
+Bubble Sort (Split Node)
+Interior Node Split Check
+
+After sorting
+Cont[0] = 00012
+Cont[1] = 00013
+Cont[2] = 00014
+Cont[3] = 00100
+Key = 00101
+Child[0] = -1
+Child[1] = -1
+Child[2] = -1
+Child[3] = -1
+Child[4] = -1
+Right = -1
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  6864
+rootAddr: 5616
+About to insert into parent node
+SPLIT NODE TIME
+About to sort in the split function
+Size = 4
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00008
+Cont[3] = 00011
+Key = 00014
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 6240
+Child[4] = 6864
+Right = 7488
+
+After sorting
+Cont[0] = 00002
+Cont[1] = 00005
+Cont[2] = 00008
+Cont[3] = 00011
+Key = 00014
+Child[0] = 624
+Child[1] = 3120
+Child[2] = 3744
+Child[3] = 6240
+Child[4] = 6864
+Right = 7488
+Save New Address in RAM
+Write new Address to disk
+In split comparing recAddr to rootAddr
+recAddr:  1872
+rootAddr: 5616
+About to insert into parent node
+Standard Insertion
+About to sort in the insert function
+Size = 2
+Cont[0] = 00102
+Cont[1] = 00008
+Child[0] = 1872
+Child[1] = 4992
+Child[2] = 8112
+Bubble Sort
+Interior Node Check
+After Sorting
+Cont[0] = 00008
+Cont[1] = 00102
+Child[0] = 1872
+Child[1] = 8112
+Child[2] = 4992
+Fininshed Inserting: 00014
+5616
+    *** Node of Size: 2 ***     
+00008
+00102
+1872
+    *** Node of Size: 2 ***     
+00002
+00005
+624
+    *** Node of Size: 2 ***     
+00000
+00001
+3120
+    *** Node of Size: 2 ***     
+00003
+00004
+3744
+    *** Node of Size: 2 ***     
+00006
+00007
+8112
+    *** Node of Size: 2 ***     
+00011
+00014
+6240
+    *** Node of Size: 2 ***     
+00009
+00010
+6864
+    *** Node of Size: 2 ***     
+00012
+00013
+7488
+    *** Node of Size: 2 ***     
+00100
+00101
+4992
+    *** Node of Size: 2 ***     
+20831
+99000
+2496
+    *** Node of Size: 2 ***     
+02284
+08722
+1248
+    *** Node of Size: 2 ***     
+42276
+75599
+4368
+    *** Node of Size: 2 ***     
+99998
+99999
+
+
+777777777777777777777777777777777777777777777777777
+Inorder Traversal
+Inorder Traversal
+Inorder Traversal
+00000
+00001
+00002
+Inorder Traversal
+00003
+00004
+00005
+Inorder Traversal
+00006
+00007
+00008
+Inorder Traversal
+Inorder Traversal
+00009
+00010
+00011
+Inorder Traversal
+00012
+00013
+00014
+Inorder Traversal
+00100
+00101
+00102
+Inorder Traversal
+Inorder Traversal
+02284
+08722
+20831
+Inorder Traversal
+42276
+75599
+99000
+Inorder Traversal
+99998
+99999

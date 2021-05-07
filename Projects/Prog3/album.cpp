@@ -32,7 +32,7 @@ Album & Album::operator = (const Album& otherAlbum)
 
 bool operator <(const Album& a, const Album& b)
 {
-    return atoi(a.UPC) < atoi(b.UPC);
+    return strcmp(a.UPC, b.UPC) < 0;
 }
 
 istream& operator >> (istream &stream, Album &C)

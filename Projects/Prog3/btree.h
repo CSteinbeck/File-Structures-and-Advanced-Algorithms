@@ -63,7 +63,7 @@ class BTree
 	int write;
 
 	int findAddr (keyType key, BTNode t, int tAddr);
-	int findpAddr(keyType key, BTNode t, int tAddr);
+	int findpAddr(keyType key, BTNode t, int tAddr,int findpAddr);
 	void insert (keyType key, int recAddr, int oneAddr, int twoAddr);
         BTNode getNode (int recAddr);
 	void printNode(int recAddr);
@@ -74,6 +74,7 @@ class BTree
         void adjRoot (keyType rootElem, int oneAddr, int twoAddr);
         void splitNode (keyType& key,int recAddr,int& oneAddr,int& twoAddr);
 	bool search (string key, BTNode t, int tAddr);
+	keyType retrieve (string key,BTNode T, int tAddr); 
 	
 };
 
