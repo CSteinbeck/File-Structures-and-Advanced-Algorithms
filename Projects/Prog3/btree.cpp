@@ -22,6 +22,15 @@ void BTree :: writeHeader(char *filename)
     write++;
 
 }
+void BTree :: openTree(char * filename)
+{
+    BTNode t;
+    treeFile.open(filename, ios :: in | ios :: out | ios ::binary);
+    treeFile.read((char*) &t, sizeof(BTNode));
+    read++;
+    rootAddr= t.child[0];
+    root=getNode(rootAddr); //Updating the root
+}
 void BTree :: insert(keyType key)
 {
     int adr= findAddr(key, root, rootAddr);
@@ -91,7 +100,7 @@ void BTree :: inorder (int rootAddr)
 {
     if(rootAddr != -1)
     {
-    cout<<"Inorder Traversal"<<endl;
+    //cout<<"Inorder Traversal"<<endl;
     BTNode t= getNode(rootAddr);
     for(int i=0; i<t.currSize; i++)
         {
@@ -127,33 +136,33 @@ int BTree :: findAddr (keyType key, BTNode t, int tAddr)
          
         if(case1 ==case2)
         {
-            cout<<"Identical!"<<endl;
+            //cout<<"Identical!"<<endl;
             return tAddr;
         }
         else if(case1 < case2)
         {
             if(t.child[i]== -1) //Checks if it is a leaf node
             {
-                cout<<"Leaf Node, Address is here"<<endl;
+                //cout<<"Leaf Node, Address is here"<<endl;
                 return tAddr;
             }
             else
             {
                 //Recursively finds the next address
-                cout<<"Recursion for Find Address"<<endl;
+                //cout<<"Recursion for Find Address"<<endl;
                 return findAddr(key,getNode(t.child[i]),t.child[i]);
             }
         }  
     }
     if(t.child[t.currSize]== -1) //Checks if it is a leaf node
     {
-        cout<<"Leaf Node, Address is here"<<endl;
+        //cout<<"Leaf Node, Address is here"<<endl;
         return tAddr;
     }
     else
     {
         //Recursively finds the next address
-        cout<<"Recursion for Find Address"<<endl;
+        //cout<<"Recursion for Find Address"<<endl;
         return findAddr(key,getNode(t.child[t.currSize]),t.child[t.currSize]);
     }
 }
@@ -231,12 +240,12 @@ void BTree :: insert (keyType key, int recAddr, int oneAddr, int twoAddr)
             { //Bubble Sort
                 if(t.contents[i] <t.contents[i-1])
                 {
-                    cout<<"Bubble Sort"<<endl;
+                    //cout<<"Bubble Sort"<<endl;
                     temp = t.contents[i-1];
                     t.contents[i-1] = t.contents[i];
                     t.contents[i]=temp;
                     
-                    cout<<"Interior Node Check"<<endl;
+                    //cout<<"Interior Node Check"<<endl;
                     int tempAddr= t.child[i+1];
                     t.child[i+1] =t.child[i];
                     t.child[i]= tempAddr;
@@ -342,15 +351,12 @@ void BTree :: adjRoot (keyType rootElem, int oneAddr, int twoAddr)
    root=newRoot; //Reassigned the real root to the new one
    treeFile.seekg(0,ios::end);
    rootAddr= treeFile.tellg(); //Writes the rootAdr to the new space on file
-   cout<<"New Root Addr: "<<rootAddr<<endl;
+   //cout<<"New Root Addr: "<<rootAddr<<endl;
    treeFile.write((char*) &root, sizeof(BTNode));
    write++;
    treeFile.seekg(0,ios::beg);
-   cout<<"Updating Header Info"<<endl;
    newFileHeader.child[0] = rootAddr; //Updates the header of the file
-   cout<<"New Root Addr: "<<rootAddr<<endl;
    treeFile.write((char*) &newFileHeader, sizeof(BTNode)); //Rewrites the file
-   cout<<"Successful Write"<<endl;
    write++;
 }
 
@@ -379,8 +385,7 @@ void BTree :: splitNode (keyType& key,int recAddr,int& oneAddr,int& twoAddr)
         t.contents[t.currSize-1] = key;
         key=temp;
 
-        //You have one 
-        cout<<"Interior Node Split Check"<<endl;
+
         int tempAddr= twoAddr;
         twoAddr =t.child[t.currSize];
         t.child[t.currSize]= tempAddr;
@@ -389,12 +394,12 @@ void BTree :: splitNode (keyType& key,int recAddr,int& oneAddr,int& twoAddr)
         { //Bubble Sort
             if(t.contents[i] <t.contents[i-1])
             {
-                cout<<"Bubble Sort (Split Node)"<<endl;
+                //cout<<"Bubble Sort (Split Node)"<<endl;
                 temp = t.contents[i-1];
                 t.contents[i-1] = t.contents[i];
                 t.contents[i]=temp;
 
-                    cout<<"Interior Node Split Check"<<endl;
+                    //cout<<"Interior Node Split Check"<<endl;
                     int tempAddr= t.child[i+1];
                     t.child[i+1] =t.child[i];
                     t.child[i]= tempAddr;
@@ -425,9 +430,7 @@ void BTree :: splitNode (keyType& key,int recAddr,int& oneAddr,int& twoAddr)
     treeFile.write((char*) &t, sizeof(BTNode));
 
     treeFile.seekg(0, ios ::end);
-    cout<<"Save New Address in RAM"<<endl;
     int newAddr =treeFile.tellg(); //saves the node from RAM 
-    cout<<"Write new Address to disk"<<endl;
     treeFile.write((char*) &t2, sizeof(BTNode));//Writes the new node to disk
 
     // cout << "In split comparing recAddr to rootAddr" << endl;
@@ -460,7 +463,7 @@ bool BTree :: search (string key, BTNode t, int tAddr)
         }
     }
     //goes to thr right most child for each pass
-    if(t.child[t.currSize] !=1)
+    if(t.child[t.currSize] != -1)
     {
         return search(key, getNode(t.child[t.currSize]), t.child[t.currSize]);
     }
@@ -482,7 +485,7 @@ keyType BTree ::  retrieve (string key, BTNode t, int tAddr)
         }
     }
     //goes to thr right most child for each pass
-    if(t.child[t.currSize] !=1)
+    if(t.child[t.currSize] != -1)
     {
         return retrieve(key, getNode(t.child[t.currSize]), t.child[t.currSize]);
     }

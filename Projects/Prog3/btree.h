@@ -38,6 +38,7 @@ class BTree
  public:
 	BTree();
 	void writeHeader (char * fileName);
+	void openTree(char * filename);
 	void insert (keyType key);
 	void reset (char * filename);
 	void close ();

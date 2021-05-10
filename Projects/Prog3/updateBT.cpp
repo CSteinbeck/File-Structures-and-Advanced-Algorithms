@@ -7,37 +7,38 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-BTree t;
-Album alpha;
-string UPC;
-t.writeHeader(argv[1]);
-fstream transFile(argv[2], ios::in);
-char symbol;
-while(transFile>>symbol)
-{
-    transFile.ignore();
-    if(symbol == 'S')
+    BTree t;
+    Album alpha;
+    string UPC;
+    t.openTree(argv[1]);
+    fstream transFile(argv[2], ios::in);
+    char symbol;
+    while(transFile>>symbol)
     {
-        getline(transFile, UPC);
-        if(t.search(UPC) ==true)
+        cout << endl << endl;
+        transFile.ignore();
+        if(symbol == 'S')
         {
-            cout<<"It is true"<<endl;
-            alpha = t.retrieve(UPC);
+            getline(transFile, UPC);
+            if(t.search(UPC) ==true)
+            {
+                cout<<"It is true"<<endl;
+                alpha = t.retrieve(UPC);
+                cout<<alpha<<endl;
+            }
+            else{
+                cout<<UPC<<" is not found"<<endl;
+            }
+        }
+        if(symbol == 'I')
+        {
+            transFile>>alpha;
+            t.insert(alpha);
+            cout<<"Now Inserting"<<endl;
             cout<<alpha<<endl;
-        }
-        else{
-            cout<<UPC<<" is not found"<<endl;
-        }
-    }
-    if(symbol == 'I')
-    {
-        transFile>>alpha;
-        t.insert(alpha);
-        cout<<"Now Inserting"<<endl;
-        cout<<alpha<<endl;
 
+        }
+        t.totalio();
     }
-    t.totalio();
-    }
-            
+                
 }

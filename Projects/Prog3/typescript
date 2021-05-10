@@ -1,0 +1,685 @@
+Script started on Fri 07 May 2021 03:12:41 PM EDT
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[?1034h[steinbeck_cr@cobra Prog3]$ cat ca[K[Kalbum.h
+#ifndef ALBUM
+#define ALBUM
+
+#include <cstring>
+#include <string>
+#include <fstream>
+using namespace std;
+
+const int UpTo = 50;
+typedef char String[UpTo];
+
+class Album
+{
+   public :
+       Album (const Album& otherAlbum);
+       Album (String upc, String artist,
+                String title);
+       Album ();
+       Album & operator = (const Album& otherAlbum);
+       friend bool operator < (const Album& a, const Album& b);
+       friend istream & operator >> (istream & stream, Album & C);
+       friend ostream & operator << (ostream & stream, Album & C);
+       string getUPC ();
+       int recordSize();
+
+   private :
+       String UPC, Artist, Title; //UPC is the key (think ISBN)
+};
+#endif
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ cat albumc.[K[K.cpp
+//Colton Steinbeck
+//album.cpp class from .h file
+#include "album.h"
+
+Album:: Album(const Album& otherAlbum)
+{
+    strcpy (UPC, otherAlbum.UPC);
+    strcpy (Artist, otherAlbum.Artist);
+    strcpy (Title, otherAlbum.Title);
+}
+
+Album :: Album(String myUpc, String myArtist, String myTitle)
+{
+    strcpy(UPC, myUpc);
+    strcpy(Artist, myArtist);
+    strcpy(Title, myTitle);
+}
+
+Album ::Album()
+{
+    strcpy(UPC, "\0");
+    strcpy(Artist, "\0");
+    strcpy(Title, "\0");
+}
+Album & Album::operator = (const Album& otherAlbum)
+{
+       strcpy (UPC, otherAlbum.UPC);
+       strcpy (Artist, otherAlbum.Artist);
+       strcpy (Title, otherAlbum.Title);
+       return *this;
+}
+
+bool operator <(const Album& a, const Album& b)
+{
+    return strcmp(a.UPC, b.UPC) < 0;
+}
+
+istream& operator >> (istream &stream, Album &C)
+{
+    stream.getline(C.UPC,50,'\n');
+    stream.getline(C.Artist, 50, '\n');
+    stream.getline(C.Title, 50, '\n');
+    return stream;
+}
+ostream& operator<<(ostream &stream, Album& C)
+{
+    return stream<<C.UPC;
+    return stream<<C.Artist;
+    return stream<<C.Title;
+    return stream;
+}
+
+string Album::getUPC()
+{
+    return UPC;
+}
+
+int Album::recordSize()
+{
+    return (strlen(UPC)+strlen(Artist)+strlen(Title));
+}
+
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ cat btree.h
+
+#include <vector>
+#include <set>
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <cstdlib>
+#include "album.h"
+using namespace std;
+
+#ifndef BTREE_H
+#define BTREE_H
+
+class Album;
+const int ORDER = 5;
+typedef Album keyType;
+typedef int IndexArray[ORDER];
+typedef keyType ValueArray[ORDER-1];
+
+struct BTNode
+{
+        int currSize;
+        ValueArray contents;
+        IndexArray child = {-1,-1,-1,-1,-1};
+}; 
+
+struct Pair
+{
+        Album element;
+        int loffset;
+        int roffset;
+        friend bool operator < (const Pair& p1, const Pair& p2)
+           { return (p1.element < p2.element);  }
+};
+
+class BTree
+{
+ public:
+	BTree();
+	void writeHeader (char * fileName);
+	void openTree(char * filename);
+	void insert (keyType key);
+	void reset (char * filename);
+	void close ();
+	void printTree();
+	void inorder();
+	void reverse();
+	int getHeight();
+	bool search (string key);
+	keyType retrieve (string key);
+	void totalio() const;
+	int countLeaves();
+
+ private:
+	BTNode root;
+        int rootAddr;
+	char treeFileName[80];
+	fstream treeFile;
+	int height;
+	void printTree (int rootAddr);
+	void inorder (int rootAddr);
+	void reverse (int rootAddr);
+	int read;
+	int write;
+
+	int findAddr (keyType key, BTNode t, int tAddr);
+	int findpAddr(keyType key, BTNode t, int tAddr,int findpAddr);
+	void insert (keyType key, int recAddr, int oneAddr, int twoAddr);
+        BTNode getNode (int recAddr);
+	void printNode(int recAddr);
+        void placeNode (keyType k,int recAddr,int oneAddr,int twoAddr);
+	bool isLeaf (int recAddr);
+	bool isLeaf(BTNode t);
+	int countLeaves(int recAddr);
+        void adjRoot (keyType rootElem, int oneAddr, int twoAddr);
+        void splitNode (keyType& key,int recAddr,int& oneAddr,int& twoAddr);
+	bool search (string key, BTNode t, int tAddr);
+	keyType retrieve (string key,BTNode T, int tAddr); 
+	
+};
+
+#endif
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ cat album.cpp
+//Colton Steinbeck
+//album.cpp class from .h file
+#include "album.h"
+
+Album:: Album(const Album& otherAlbum)
+{
+    strcpy (UPC, otherAlbum.UPC);
+    strcpy (Artist, otherAlbum.Artist);
+    strcpy (Title, otherAlbum.Title);
+}
+
+Album :: Album(String myUpc, String myArtist, String myTitle)
+{
+    strcpy(UPC, myUpc);
+    strcpy(Artist, myArtist);
+    strcpy(Title, myTitle);
+}
+
+Album ::Album()
+{
+    strcpy(UPC, "\0");
+    strcpy(Artist, "\0");
+    strcpy(Title, "\0");
+}
+Album & Album::operator = (const Album& otherAlbum)
+{
+       strcpy (UPC, otherAlbum.UPC);
+       strcpy (Artist, otherAlbum.Artist);
+       strcpy (Title, otherAlbum.Title);
+       return *this;
+}
+
+bool operator <(const Album& a, const Album& b)
+{
+    return strcmp(a.UPC, b.UPC) < 0;
+}
+
+istream& operator >> (istream &stream, Album &C)
+{
+    stream.getline(C.UPC,50,'\n');
+    stream.getline(C.Artist, 50, '\n');
+    stream.getline(C.Title, 50, '\n');
+    return stream;
+}
+ostream& operator<<(ostream &stream, Album& C)
+{
+    return stream<<C.UPC;
+    return stream<<C.Artist;
+    return stream<<C.Title;
+    return stream;
+}
+
+string Album::getUPC()
+{
+    return UPC;
+}
+
+int Album::recordSize()
+{
+    return (strlen(UPC)+strlen(Artist)+strlen(Title));
+}
+
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ cat album.cpp[2Pbtree.halbum.cpp[2PhmyCreate album.rand tree.ind > OUTPUTna[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@large[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2Pmed[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[K
+c++ -o myCreate createBT.cpp btree.o album.o
+c++ -o myUpdate updateBT.cpp btree.o album.o
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ makecat album.cpp[2Pbtree.halbum.cpp[2PhmyCreate album.rand tree.ind > OUTPUTna[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Can[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K
+Inserting Album: 6695-158-447
+Inserting Album: 1266-890-125
+Inserting Album: 0635-987-411
+Inserting Album: 0725-9171509
+Inserting Album: 2110-053-528
+Inserting Album: 3254-4708715
+Inserting Album: 6898-261-781
+Inserting Album: 9519-1966372
+Inserting Album: 8504-1576204
+Inserting Album: 5858-647-054
+Inserting Album: 3168-073-246
+Inserting Album: 5730-1800110
+Inserting Album: 2018-422-313
+Inserting Album: 3340-1036071
+Inserting Album: 2333-418-640
+Inserting Album: 6660-9419267
+Inserting Album: 2914-9309110
+Inserting Album: 3243-335-948
+Inserting Album: 1855-191-314
+Inserting Album: 5264-791-954
+Inserting Album: 9631-436-223
+Inserting Album: 6216-9653067
+Inserting Album: 9790-4089932
+Inserting Album: 1357-1345847
+Inserting Album: 6661-6237969
+Inserting Album: 8239-149-328
+Inserting Album: 9772-5396922
+Inserting Album: 8157-169-441
+Inserting Album: 1335-814-852
+Inserting Album: 2478-436-912
+Inserting Album: 8538-491-924
+Inserting Album: 3025-2145283
+Inserting Album: 7393-6626925
+Inserting Album: 5002-144-259
+Inserting Album: 0565-1026688
+Inserting Album: 3542-3536137
+Inserting Album: 9112-349-234
+Inserting Album: 1892-489-267
+Inserting Album: 5821-7841347
+Inserting Album: 2361-476-655
+Inserting Album: 0793-7576367
+Inserting Album: 2639-4572884
+Inserting Album: 9732-0079775
+Inserting Album: 7846-8106878
+Inserting Album: 7459-9032542
+Inserting Album: 9901-259-824
+Inserting Album: 4628-8292674
+Inserting Album: 7451-7202204
+Inserting Album: 4359-1245339
+Inserting Album: 1598-600-894
+Inserting Album: 7883-951-029
+Inserting Album: 5450-269-643
+Inserting Album: 5226-625-588
+Inserting Album: 1062-2621135
+Inserting Album: 0919-634-377
+Inserting Album: 3857-068-605
+Inserting Album: 9187-416-126
+Inserting Album: 2604-940-386
+Inserting Album: 2459-1045167
+Inserting Album: 0316-6991881
+Inserting Album: 0777-002-759
+Inserting Album: 1080-754-528
+Inserting Album: 3144-3853164
+Inserting Album: 2590-526-737
+Inserting Album: 0985-3418901
+Inserting Album: 2756-1403235
+Inserting Album: 4492-282-663
+Inserting Album: 6192-0971898
+Inserting Album: 5876-472-492
+Inserting Album: 1093-5679540
+Inserting Album: 0678-949-176
+Inserting Album: 3671-5502966
+Inserting Album: 6613-2143986
+Inserting Album: 4277-442-556
+Inserting Album: 1891-4459321
+Inserting Album: 9317-9266864
+Inserting Album: 9974-2039846
+Inserting Album: 3237-4828217
+Inserting Album: 4093-209-181
+Inserting Album: 0949-4024218
+Inserting Album: 0344-437-586
+Inserting Album: 4274-3483717
+Inserting Album: 7076-1046683
+Inserting Album: 9719-7295205
+Inserting Album: 7721-5597705
+Inserting Album: 9747-535-397
+Inserting Album: 0928-185-242
+Inserting Album: 3757-527-535
+Inserting Album: 0022-980-419
+Inserting Album: 2104-319-383
+Inserting Album: 7790-265-584
+Inserting Album: 9745-9776524
+Inserting Album: 2147-2814695
+Inserting Album: 6047-262-145
+Inserting Album: 4302-969-696
+Inserting Album: 1647-546-663
+Inserting Album: 5866-459-168
+Inserting Album: 4647-229-236
+Inserting Album: 1552-395-052
+Inserting Album: 5894-144-730
+18720
+    *** Node of Size: 1 ***     
+3254-4708715
+5616
+    *** Node of Size: 2 ***     
+0919-634-377
+1855-191-314
+1872
+    *** Node of Size: 2 ***     
+0565-1026688
+0725-9171509
+624
+    *** Node of Size: 3 ***     
+0022-980-419
+0316-6991881
+0344-437-586
+16848
+    *** Node of Size: 2 ***     
+0635-987-411
+0678-949-176
+11856
+    *** Node of Size: 2 ***     
+0777-002-759
+0793-7576367
+17472
+    *** Node of Size: 3 ***     
+1062-2621135
+1266-890-125
+1552-395-052
+13728
+    *** Node of Size: 3 ***     
+0928-185-242
+0949-4024218
+0985-3418901
+16224
+    *** Node of Size: 2 ***     
+1080-754-528
+1093-5679540
+1248
+    *** Node of Size: 2 ***     
+1335-814-852
+1357-1345847
+23712
+    *** Node of Size: 2 ***     
+1598-600-894
+1647-546-663
+12480
+    *** Node of Size: 4 ***     
+2018-422-313
+2333-418-640
+2604-940-386
+3025-2145283
+6864
+    *** Node of Size: 2 ***     
+1891-4459321
+1892-489-267
+20592
+    *** Node of Size: 3 ***     
+2104-319-383
+2110-053-528
+2147-2814695
+3744
+    *** Node of Size: 4 ***     
+2361-476-655
+2459-1045167
+2478-436-912
+2590-526-737
+13104
+    *** Node of Size: 3 ***     
+2639-4572884
+2756-1403235
+2914-9309110
+8112
+    *** Node of Size: 4 ***     
+3144-3853164
+3168-073-246
+3237-4828217
+3243-335-948
+18096
+    *** Node of Size: 3 ***     
+4628-8292674
+6695-158-447
+9112-349-234
+4992
+    *** Node of Size: 2 ***     
+3857-068-605
+4277-442-556
+3120
+    *** Node of Size: 4 ***     
+3340-1036071
+3542-3536137
+3671-5502966
+3757-527-535
+14352
+    *** Node of Size: 2 ***     
+4093-209-181
+4274-3483717
+19344
+    *** Node of Size: 3 ***     
+4302-969-696
+4359-1245339
+4492-282-663
+19968
+    *** Node of Size: 4 ***     
+5226-625-588
+5730-1800110
+5876-472-492
+6216-9653067
+11232
+    *** Node of Size: 2 ***     
+4647-229-236
+5002-144-259
+23088
+    *** Node of Size: 2 ***     
+5264-791-954
+5450-269-643
+4368
+    *** Node of Size: 3 ***     
+5821-7841347
+5858-647-054
+5866-459-168
+22464
+    *** Node of Size: 3 ***     
+5894-144-730
+6047-262-145
+6192-0971898
+8736
+    *** Node of Size: 3 ***     
+6613-2143986
+6660-9419267
+6661-6237969
+9360
+    *** Node of Size: 3 ***     
+7459-9032542
+7846-8106878
+8239-149-328
+2496
+    *** Node of Size: 4 ***     
+6898-261-781
+7076-1046683
+7393-6626925
+7451-7202204
+9984
+    *** Node of Size: 2 ***     
+7721-5597705
+7790-265-584
+21216
+    *** Node of Size: 2 ***     
+7883-951-029
+8157-169-441
+7488
+    *** Node of Size: 2 ***     
+8504-1576204
+8538-491-924
+15600
+    *** Node of Size: 3 ***     
+9519-1966372
+9732-0079775
+9772-5396922
+14976
+    *** Node of Size: 2 ***     
+9187-416-126
+9317-9266864
+6240
+    *** Node of Size: 2 ***     
+9631-436-223
+9719-7295205
+21840
+    *** Node of Size: 2 ***     
+9745-9776524
+9747-535-397
+10608
+    *** Node of Size: 3 ***     
+9790-4089932
+9901-259-824
+9974-2039846
+------------------------------------------------------
+0022-980-419
+0316-6991881
+0344-437-586
+0565-1026688
+0635-987-411
+0678-949-176
+0725-9171509
+0777-002-759
+0793-7576367
+0919-634-377
+0928-185-242
+0949-4024218
+0985-3418901
+1062-2621135
+1080-754-528
+1093-5679540
+1266-890-125
+1335-814-852
+1357-1345847
+1552-395-052
+1598-600-894
+1647-546-663
+1855-191-314
+1891-4459321
+1892-489-267
+2018-422-313
+2104-319-383
+2110-053-528
+2147-2814695
+2333-418-640
+2361-476-655
+2459-1045167
+2478-436-912
+2590-526-737
+2604-940-386
+2639-4572884
+2756-1403235
+2914-9309110
+3025-2145283
+3144-3853164
+3168-073-246
+3237-4828217
+3243-335-948
+3254-4708715
+3340-1036071
+3542-3536137
+3671-5502966
+3757-527-535
+3857-068-605
+4093-209-181
+4274-3483717
+4277-442-556
+4302-969-696
+4359-1245339
+4492-282-663
+4628-8292674
+4647-229-236
+5002-144-259
+5226-625-588
+5264-791-954
+5450-269-643
+5730-1800110
+5821-7841347
+5858-647-054
+5866-459-168
+5876-472-492
+5894-144-730
+6047-262-145
+6192-0971898
+6216-9653067
+6613-2143986
+6660-9419267
+6661-6237969
+6695-158-447
+6898-261-781
+7076-1046683
+7393-6626925
+7451-7202204
+7459-9032542
+7721-5597705
+7790-265-584
+7846-8106878
+7883-951-029
+8157-169-441
+8239-149-328
+8504-1576204
+8538-491-924
+9112-349-234
+9187-416-126
+9317-9266864
+9519-1966372
+9631-436-223
+9719-7295205
+9732-0079775
+9745-9776524
+9747-535-397
+9772-5396922
+9790-4089932
+9901-259-824
+9974-2039846
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ myCreate album.rand tree.indake[Kcat album.cpp[2Pbtree.halbum.cpp[2PhmyCreate album.rand tree.ind > OUTPUTna[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@large[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2Pmed[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.med tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.med tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.med tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[2Pmed[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2@small[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[1Pbaby[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@small[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.small tree.ind > OUTPUT[2Pmed[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2@small[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.med tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.med tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.med tree.ind > OUTPUT[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cake[KyCreate album.med tree.ind > OUTPUT[2@large[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1Prnad[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Can[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccat album.h[Kcpp[2Pbtree.halbum.cppmake[KyCreate album.rand tree.ind[KmyUpdate tree.ind trans1.dat
+
+
+42276 is not found
+Number of reads: 6
+Number of writes: 0
+
+
+00100 is not found
+Number of reads: 10
+Number of writes: 0
+
+
+08722 is not found
+Number of reads: 14
+Number of writes: 0
+
+
+Now Inserting
+01015
+Number of reads: 18
+Number of writes: 1
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ myUpdate tree.ind trans1.dat[1P.dat2.dat
+
+
+20831-4207-2 is not found
+Number of reads: 6
+Number of writes: 0
+
+
+7559-61257-2 is not found
+Number of reads: 10
+Number of writes: 0
+
+
+non-existing is not found
+Number of reads: 14
+Number of writes: 0
+
+
+08811-134120 is not found
+Number of reads: 18
+Number of writes: 0
+
+
+It is true
+01015
+Number of reads: 25
+Number of writes: 0
+
+
+It is true
+6695-158-447
+Number of reads: 28
+Number of writes: 0
+
+
+01 is not found
+Number of reads: 32
+Number of writes: 0
+]0;steinbeck_cr@cobra:~/csc310/Projects/Prog3[steinbeck_cr@cobra Prog3]$ exit
+exit
+
+Script done on Fri 07 May 2021 03:14:00 PM EDT

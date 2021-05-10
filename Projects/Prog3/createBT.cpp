@@ -18,12 +18,9 @@ int main(int argc, char *argv[])
     {
         cout<<"Inserting Album: " <<alpha<<endl;
         b.insert(alpha);
-        cout<<"Fininshed Inserting: "<<alpha<<endl;
-        b.printTree();
-        cout << endl << endl;
     }
-    
-    cout << "777777777777777777777777777777777777777777777777777" << endl;
+    b.printTree();
+    cout << "------------------------------------------------------" << endl;
     b.inorder();
 
 }
